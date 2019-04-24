@@ -1,13 +1,13 @@
 package com.example.geekmover;
 import java.util.Date;
 
-public class Coordinate {
+public class Coordinates {
 
     private double longitude;
     private double latitude;
     private Date timestamp;
 
-    public Coordinate(double longitude, double latitude, Date timestamp) {
+    public Coordinates(double longitude, double latitude, Date timestamp) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.timestamp = timestamp;

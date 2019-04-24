@@ -1,9 +1,12 @@
-package com.example.geekmover;
+package com.example.geekmover.data;
+
+import com.example.geekmover.UserData;
 
 public class Exercise implements IExercise {
 
     private String name;
     private int amount;
+    private boolean finished;
 
     public Exercise(String name, int amount){
         this.name = name;
@@ -14,9 +17,16 @@ public class Exercise implements IExercise {
         return name;
     }
 
+    @Override
     public int getAmount() {
         return amount;
     }
+
+    @Override
+    public boolean getFinished(){ return finished; }
+
+    @Override
+    public void setFinished(boolean finished){ this.finished = finished; }
 
     @Override
     public double getCaloriesBurned() {

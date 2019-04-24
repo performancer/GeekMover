@@ -1,9 +1,9 @@
 package com.example.geekmover;
 
-class UserData {
+public class UserData {
     private static final UserData ourInstance = new UserData();
 
-    static UserData getInstance() {
+    public static UserData getInstance() {
         return ourInstance;
     }
 

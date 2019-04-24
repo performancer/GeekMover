@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/coordinatesView"
+        android:layout_width="300dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="132dp"
+        android:text="COORD"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/goalView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goalView"
+        android:layout_width="192dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="110dp"
+        android:text="Distance/Goal"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatesView" />
+
+</android.support.constraint.ConstraintLayout>
