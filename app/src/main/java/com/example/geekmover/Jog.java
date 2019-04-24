@@ -1,4 +1,6 @@
 package com.example.geekmover;
+import android.app.Activity;
+
 import java.util.ArrayList;
 
 public class Jog implements IExercise {
@@ -36,8 +38,19 @@ public class Jog implements IExercise {
         return getDistance() >= goal;
     }
 
-    public void start(){
-        locationHandler = new LocationHandler();
+    public boolean start(Activity activity){
+
+        if(locationHandler != null){
+            locationHandler.end();
+        }
+
+        locationHandler = new LocationHandler(this);
+        return locationHandler.start(activity);
+    }
+
+    public void end(){
+        if(locationHandler != null)
+            locationHandler.end();
     }
 
     @Override

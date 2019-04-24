@@ -7,9 +7,17 @@ class UserData {
         return ourInstance;
     }
 
-    private int height, weight;
+    private int level, height, weight;
 
     private UserData() {
+    }
+
+    public int getLevel(){
+        return level;
+    }
+
+    public void setLevel(int level){
+        this.level = level;
     }
 
     public int getHeight() {
