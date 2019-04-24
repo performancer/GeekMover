@@ -5,6 +5,7 @@ public class Jog implements IExercise {
 
     private double goal;
     private ArrayList<Coordinate> coordinates;
+    private LocationHandler locationHandler;
 
     public Jog(double goal)
     {
@@ -33,6 +34,10 @@ public class Jog implements IExercise {
 
     public boolean isFinished(){
         return getDistance() >= goal;
+    }
+
+    public void start(){
+        locationHandler = new LocationHandler();
     }
 
     @Override
