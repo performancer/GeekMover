@@ -37,6 +37,7 @@ public class Jog implements IExercise {
 
     @Override
     public double getCaloriesBurned(){
+        UserData data = UserData.getInstance();
         return 0;
     }
 
