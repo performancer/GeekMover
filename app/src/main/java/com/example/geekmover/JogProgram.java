@@ -8,6 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+
 import com.example.geekmover.activities.JogActivity;
 import com.example.geekmover.data.Jog;
 import java.util.ArrayList;
@@ -45,7 +47,38 @@ public class JogProgram implements LocationListener {
     }
 
     public int getDistance() {
-        return 0;
+
+        double distance = 0;
+
+        if(coordinatesArrayList.size() >= 2)
+        {
+            for(int i = 1; i < coordinatesArrayList.size(); i++){
+
+                Coordinates last = coordinatesArrayList.get(i - 1);
+                Coordinates current = coordinatesArrayList.get(i);
+
+                distance += getDistanceBetweenCoordinates(last, current);
+            }
+        }
+
+        Log.d("debug", " " + distance);
+
+        return (int) distance;
+    }
+
+    private double getDistanceBetweenCoordinates(Coordinates one, Coordinates two){
+        double radius = 6371000;
+        double dLat = Math.toRadians(two.getLatitude() - one.getLatitude());
+        double dLon = Math.toRadians(two.getLongitude()- one.getLongitude());
+
+        double lastLatInRadians = Math.toRadians(one.getLatitude());
+        double currentLatInRadians = Math.toRadians(two.getLatitude());
+
+        double a = Math.pow(Math.sin(dLat/2), 2) + Math.pow(Math.sin(dLon/2), 2) * Math.cos(lastLatInRadians) * Math.cos(currentLatInRadians);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        return radius * c;
     }
 
     public int getGoal(){
@@ -60,6 +93,18 @@ public class JogProgram implements LocationListener {
     }
 
     public double getCurrentSpeed() {
+        int size = coordinatesArrayList.size();
+
+        if(size >= 2)
+        {
+            Coordinates latest = getLatestCoordinates();
+            Coordinates earlier = coordinatesArrayList.get(size - 2);
+
+            long seconds = (latest.getTimestamp().getTime() - earlier.getTimestamp().getTime()) / 1000;
+
+            return  getDistanceBetweenCoordinates(earlier, latest) / seconds;
+        }
+
         return 0;
     }
 
@@ -102,9 +147,19 @@ public class JogProgram implements LocationListener {
 
         double latitude = (location.getLatitude());
         double longitude =  (location.getLongitude());
-        Date current =  Calendar.getInstance().getTime();
+        Date now =  Calendar.getInstance().getTime();
 
-        addCoordinate(new Coordinates(latitude, longitude, current));
+        Coordinates current = new Coordinates(latitude, longitude, now);
+        Coordinates last = getLatestCoordinates();
+
+        if(last != null) {
+            double distance = getDistanceBetweenCoordinates(last, current);
+
+            if (distance < 10)
+                return;
+        }
+
+        addCoordinate(current);
 
         if(isFinished())
             jog.setFinished(true);
