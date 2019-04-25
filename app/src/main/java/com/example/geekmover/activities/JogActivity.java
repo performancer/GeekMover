@@ -37,6 +37,6 @@ public class JogActivity extends AppCompatActivity {
         double goal = jogProgram.getGoal() / 1000.0;
 
         TextView goalView = findViewById(R.id.goalView);
-        goalView.setText(distance + "/" + goal + "km");
+        goalView.setText(distance + "km /" + goal + "km");
     }
 }

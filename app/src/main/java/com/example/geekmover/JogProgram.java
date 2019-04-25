@@ -20,6 +20,7 @@ public class JogProgram implements LocationListener {
     private JogActivity activity;
     private LocationManager locationManager;
     private ArrayList<Coordinates> coordinatesArrayList;
+    private double totalDistance;
 
     public JogProgram(JogActivity activity, Jog jog)
     {
@@ -27,6 +28,7 @@ public class JogProgram implements LocationListener {
         this.jog = jog;
 
         coordinatesArrayList = new ArrayList<>();
+        totalDistance = 0;
     }
 
     void addCoordinate(Coordinates coordinates){
@@ -44,8 +46,12 @@ public class JogProgram implements LocationListener {
         return coordinatesArrayList;
     }
 
-    public int getDistance() {
-        return 0;
+    public double getDistance() {
+
+        if(coordinatesArrayList.size() > 2) {
+                totalDistance += measureDistanceBetweenCoordinates(getLatestCoordinates(), coordinatesArrayList.get(coordinatesArrayList.size() - 2))  * 1000;
+        }
+            return totalDistance;
     }
 
     public int getGoal(){
@@ -111,6 +117,24 @@ public class JogProgram implements LocationListener {
 
         activity.Update();
     }
+
+    public double measureDistanceBetweenCoordinates(Coordinates coordOne, Coordinates coordTwo){
+        if(coordOne.getTimestamp() != coordTwo.getTimestamp()) {
+            double earthRadius = 6371000; //meters
+            double dLat = Math.toRadians(coordTwo.getLatitude()-coordOne.getLatitude());
+            double dLng = Math.toRadians(coordTwo.getLongitude()-coordOne.getLongitude());
+            double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(Math.toRadians(coordOne.getLatitude())) * Math.cos(Math.toRadians(coordTwo.getLatitude())) * Math.sin(dLng/2) * Math.sin(dLng/2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            double dist = (float) (earthRadius * c);
+
+            return dist;
+        //    return Math.sqrt(Math.pow(coordOne.getLatitude() - coordTwo.getLatitude(), 2) + Math.pow(coordOne.getLongitude() - coordTwo.getLongitude(), 2))/2;
+        }else{
+            return 0;
+        }
+    }
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
