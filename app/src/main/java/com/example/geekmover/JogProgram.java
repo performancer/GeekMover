@@ -29,6 +29,7 @@ public class JogProgram implements LocationListener {
 
         coordinatesArrayList = new ArrayList<>();
         totalDistance = 0;
+
     }
 
     void addCoordinate(Coordinates coordinates){
@@ -66,7 +67,9 @@ public class JogProgram implements LocationListener {
     }
 
     public double getCurrentSpeed() {
-        return 0;
+        Coordinates coordOne = getLatestCoordinates();
+        Coordinates coordTwo = coordinatesArrayList.get(coordinatesArrayList.size() - 2);
+        return measureDistanceBetweenCoordinates(coordOne, coordTwo)/measureMsDifferenceBetweenCoordinates(coordOne, coordTwo);
     }
 
     public boolean isFinished(){
@@ -128,13 +131,16 @@ public class JogProgram implements LocationListener {
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             double dist = (float) (earthRadius * c);
 
-            return dist;
+            return dist/1000;
         //    return Math.sqrt(Math.pow(coordOne.getLatitude() - coordTwo.getLatitude(), 2) + Math.pow(coordOne.getLongitude() - coordTwo.getLongitude(), 2))/2;
         }else{
             return 0;
         }
     }
 
+    public double measureMsDifferenceBetweenCoordinates(Coordinates coordOne, Coordinates coordTwo){
+        return Math.abs(coordOne.getTimestamp().getTime()-coordTwo.getTimestamp().getTime());
+    }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
