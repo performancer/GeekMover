@@ -46,7 +46,7 @@ public class JogProgram implements LocationListener {
         return coordinatesArrayList;
     }
 
-    public int getDistance() {
+    public int getTotalDistance() {
 
         double distance = 0;
 
@@ -99,7 +99,7 @@ public class JogProgram implements LocationListener {
 
             long seconds = (latest.getTimestamp().getTime() - first.getTimestamp().getTime()) / 1000;
 
-            return (double)getDistance()/seconds;
+            return (double)getTotalDistance()/seconds;
         }
 
         return 0;
@@ -122,7 +122,7 @@ public class JogProgram implements LocationListener {
     }
 
     public boolean isFinished(){
-        return getDistance() >= getGoal();
+        return getTotalDistance() >= getGoal();
     }
 
     public double getCaloriesBurned(){
