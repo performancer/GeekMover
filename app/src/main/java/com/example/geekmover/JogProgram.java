@@ -89,6 +89,18 @@ public class JogProgram implements LocationListener {
     }
 
     public double getAverageSpeed() {
+        int size = coordinatesArrayList.size();
+
+        if(size >= 2)
+        {
+            Coordinates latest = getLatestCoordinates();
+            Coordinates first = coordinatesArrayList.get(0);
+
+            long seconds = (latest.getTimestamp().getTime() - first.getTimestamp().getTime()) / 1000;
+
+            return (double)getDistance()/seconds;
+        }
+
         return 0;
     }
 
@@ -114,6 +126,7 @@ public class JogProgram implements LocationListener {
 
     public double getCaloriesBurned(){
         UserData data = UserData.getInstance();
+
         return 0;
     }
 
