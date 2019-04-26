@@ -57,7 +57,7 @@ public class JogProgram implements LocationListener {
                 Coordinates last = coordinatesArrayList.get(i - 1);
                 Coordinates current = coordinatesArrayList.get(i);
 
-                distance += getDistanceBetweenCoordinates(last, current);
+                distance += last.getDistanceTo(current);
             }
         }
 
@@ -66,7 +66,8 @@ public class JogProgram implements LocationListener {
         return (int) distance;
     }
 
-    private double getDistanceBetweenCoordinates(Coordinates one, Coordinates two){
+    //Obsolete, was replaced by Coordinates.getDistance(Coordinates to)
+    /*private double getDistanceBetweenCoordinates(Coordinates one, Coordinates two){
         double radius = 6371000;
         double dLat = Math.toRadians(two.getLatitude() - one.getLatitude());
         double dLon = Math.toRadians(two.getLongitude()- one.getLongitude());
@@ -79,7 +80,7 @@ public class JogProgram implements LocationListener {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
         return radius * c;
-    }
+    }*/
 
     public int getGoal(){
         if(jog != null)
@@ -114,7 +115,7 @@ public class JogProgram implements LocationListener {
 
             long seconds = (latest.getTimestamp().getTime() - earlier.getTimestamp().getTime()) / 1000;
 
-            return  getDistanceBetweenCoordinates(earlier, latest) / seconds;
+            return  earlier.getDistanceTo(latest) / seconds;
         }
 
         return 0;
@@ -166,7 +167,7 @@ public class JogProgram implements LocationListener {
         Coordinates last = getLatestCoordinates();
 
         if(last != null) {
-            double distance = getDistanceBetweenCoordinates(last, current);
+            double distance = last.getDistanceTo(current);
 
             if (distance < 10)
                 return;
