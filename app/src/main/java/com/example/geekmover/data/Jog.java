@@ -2,7 +2,9 @@ package com.example.geekmover.data;
 
 import com.example.geekmover.UserData;
 
-public class Jog implements IExercise {
+import java.io.Serializable;
+
+public class Jog implements IExercise, Serializable {
 
     private boolean finished;
     private int amount;

@@ -1,5 +1,6 @@
 package com.example.geekmover.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -8,6 +9,8 @@ import com.example.geekmover.Coordinates;
 import com.example.geekmover.JogProgram;
 import com.example.geekmover.data.Jog;
 import com.example.geekmover.R;
+
+import java.io.Serializable;
 
 public class JogActivity extends AppCompatActivity {
 
@@ -18,8 +21,16 @@ public class JogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jog);
 
-        jogProgram = new JogProgram(this, new Jog(2500));
-        jogProgram.start();
+        Serializable serializable = getIntent().getSerializableExtra("Jog");
+
+        if(serializable instanceof Jog) {
+            jogProgram = new JogProgram(this, (Jog)serializable);
+            jogProgram.start();
+        }
+        else{
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void Update() {
@@ -32,16 +43,20 @@ public class JogActivity extends AppCompatActivity {
         TextView view = findViewById(R.id.coordinatesView);
         view.setText("lat:" + latitude + " long:"+ longitude);
 
-        //meters to kilometers
-        double distance = jogProgram.getDistance() / 1000.0;
-        double goal = jogProgram.getGoal() / 1000.0;
+        //meters to kilometers rounded to one decimal
+        double distance =  Math.round(jogProgram.getTotalDistance() / 100.0) / 10.0;
+        double goal = Math.round(jogProgram.getGoal() / 100.0) / 10.0;
 
         TextView goalView = findViewById(R.id.goalView);
         goalView.setText(distance + "/" + goal + "km");
 
-        double speed = jogProgram.getCurrentSpeed();
+        int average = (int)jogProgram.getAverageSpeed();
+        int current = (int)jogProgram.getCurrentSpeed();
 
-        TextView speedView = findViewById(R.id.speedView);
-        speedView.setText(speed + " m/s");
+        TextView averageSpeedView = findViewById(R.id.averageSpeedView);
+        averageSpeedView.setText("Avg. " + average + " m/s");
+
+        TextView currentSpeedView = findViewById(R.id.currentSpeedView);
+        currentSpeedView.setText("Cur. " + current + " m/s");
     }
 }

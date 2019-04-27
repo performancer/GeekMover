@@ -16,7 +16,7 @@
         android:layout_marginBottom="132dp"
         android:text="COORD"
         android:textAlignment="center"
-        android:textSize="8sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/goalView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,16 +37,29 @@
         app:layout_constraintTop_toBottomOf="@+id/coordinatesView" />
 
     <TextView
-        android:id="@+id/speedView"
+        android:id="@+id/averageSpeedView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="176dp"
-        android:text="Count"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="69dp"
+        android:text="Average"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/currentSpeedView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goalView" />
+
+    <TextView
+        android:id="@+id/currentSpeedView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="110dp"
+        android:text="Current"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/averageSpeedView"
         app:layout_constraintTop_toBottomOf="@+id/goalView" />
 
 </android.support.constraint.ConstraintLayout>
