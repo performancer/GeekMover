@@ -32,16 +32,20 @@ public class JogActivity extends AppCompatActivity {
         TextView view = findViewById(R.id.coordinatesView);
         view.setText("lat:" + latitude + " long:"+ longitude);
 
-        //meters to kilometers
-        double distance = jogProgram.getDistance() / 1000.0;
-        double goal = jogProgram.getGoal() / 1000.0;
+        //meters to kilometers rounded to one decimal
+        double distance =  Math.round(jogProgram.getTotalDistance() / 100.0) / 10.0;
+        double goal = Math.round(jogProgram.getGoal() / 100.0) / 10.0;
 
         TextView goalView = findViewById(R.id.goalView);
         goalView.setText(distance + "/" + goal + "km");
 
-        double speed = jogProgram.getCurrentSpeed();
+        int average = (int)jogProgram.getAverageSpeed();
+        int current = (int)jogProgram.getCurrentSpeed();
 
-        TextView speedView = findViewById(R.id.speedView);
-        speedView.setText(speed + " m/s");
+        TextView averageSpeedView = findViewById(R.id.averageSpeedView);
+        averageSpeedView.setText("Avg. " + average + " m/s");
+
+        TextView currentSpeedView = findViewById(R.id.currentSpeedView);
+        currentSpeedView.setText("Cur. " + current + " m/s");
     }
 }
