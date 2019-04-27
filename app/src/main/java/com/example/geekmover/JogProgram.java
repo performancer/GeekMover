@@ -137,30 +137,31 @@ public class JogProgram implements LocationListener {
                 Coordinates last = coordinatesArrayList.get(i - 1);
                 Coordinates current = coordinatesArrayList.get(i);
 
-                double speed = last.getDistanceTo(current)/(current.getTimestamp().getTime()-last.getTimestamp().getTime());
+                double seconds = current.getTimestamp().getTime() - last.getTimestamp().getTime();
+                double speed = last.getDistanceTo(current) / seconds;
 
+                double factor = 0;
 
                 if(speed > 2 && speed <= 4){
-                    calories += (170.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    factor = 170.0/360;
                 }
                 else if(speed > 4 && speed <= 6){
-                    calories += (250.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    factor = 250.0/360;
                 }
                 else if(speed > 6 && speed <= 8){
-                    calories += (450.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    factor = 450.0/360;
                 }
                 else if(speed > 8 && speed <= 12){
-                    calories += (710.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    factor = 710.0/360;
                 }
                 else if(speed > 12 && speed <= 16){
-                    calories += (995.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    factor = 995.0/360;
                 }
                 else if(speed > 16 && speed <= 18){
-                    calories += (1175.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    factor = 1175.0/360;
                 }
-                else if(speed > 18){
-                    System.out.println("ajat autolla vitun pelle");
-                }
+
+                calories += factor * seconds;
             }
         }
 
