@@ -43,12 +43,21 @@ public class JogActivity extends AppCompatActivity {
         TextView view = findViewById(R.id.coordinatesView);
         view.setText("lat:" + latitude + " long:"+ longitude);
 
-        //meters to kilometers rounded to one decimal
-        double distance =  Math.round(jogProgram.getTotalDistance() / 100.0) / 10.0;
-        double goal = Math.round(jogProgram.getGoal() / 100.0) / 10.0;
+        String text;
+
+        if(jogProgram.isFinished()) {
+            text = "Finished";
+        }
+        else {
+            //meters to kilometers rounded to one decimal
+            double distance = Math.round(jogProgram.getTotalDistance() / 100.0) / 10.0;
+            double goal = Math.round(jogProgram.getGoal() / 100.0) / 10.0;
+
+            text = distance + "/" + goal + "km";
+        }
 
         TextView goalView = findViewById(R.id.goalView);
-        goalView.setText(distance + "/" + goal + "km");
+        goalView.setText(text);
 
         int average = (int)jogProgram.getAverageSpeed();
         int current = (int)jogProgram.getCurrentSpeed();
