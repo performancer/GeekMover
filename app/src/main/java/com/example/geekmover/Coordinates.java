@@ -1,4 +1,5 @@
 package com.example.geekmover;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Coordinates {
@@ -7,10 +8,10 @@ public class Coordinates {
     private double longitude;
     private Date timestamp;
 
-    public Coordinates(double latitude, double longitude, Date timestamp) {
+    public Coordinates(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.timestamp = timestamp;
+        this.timestamp = Calendar.getInstance().getTime();
     }
 
     public double getDistanceTo(Coordinates to){

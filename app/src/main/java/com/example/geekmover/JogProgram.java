@@ -176,9 +176,8 @@ public class JogProgram implements LocationListener {
 
         double latitude = (location.getLatitude());
         double longitude =  (location.getLongitude());
-        Date now =  Calendar.getInstance().getTime();
 
-        Coordinates current = new Coordinates(latitude, longitude, now);
+        Coordinates current = new Coordinates(latitude, longitude);
         Coordinates last = getLatestCoordinates();
 
         if(last != null) {
