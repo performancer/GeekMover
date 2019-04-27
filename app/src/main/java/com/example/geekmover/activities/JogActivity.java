@@ -58,5 +58,10 @@ public class JogActivity extends AppCompatActivity {
 
         TextView currentSpeedView = findViewById(R.id.currentSpeedView);
         currentSpeedView.setText("Cur. " + current + " m/s");
+
+        int calories = jogProgram.getCaloriesBurned();
+
+        TextView caloriesView = findViewById(R.id.caloriesView);
+        caloriesView.setText(calories + " kcal");
     }
 }

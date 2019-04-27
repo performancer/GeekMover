@@ -125,48 +125,39 @@ public class JogProgram implements LocationListener {
         return getTotalDistance() >= getGoal();
     }
 
-    public int getCaloriesBurned(){
+    public int getCaloriesBurned() {
         UserData data = UserData.getInstance();
 
         double calories = 0;
 
-        if(coordinatesArrayList.size() >= 2)
-        {
-            for(int i = 1; i < coordinatesArrayList.size(); i++){
+        for (int i = 1; i < coordinatesArrayList.size(); i++) {
 
-                Coordinates last = coordinatesArrayList.get(i - 1);
-                Coordinates current = coordinatesArrayList.get(i);
+            Coordinates last = coordinatesArrayList.get(i - 1);
+            Coordinates current = coordinatesArrayList.get(i);
 
-                double seconds = current.getTimestamp().getTime() - last.getTimestamp().getTime();
-                double speed = last.getDistanceTo(current) / seconds;
+            double seconds = (current.getTimestamp().getTime() - last.getTimestamp().getTime()) / 1000f;
+            double speed = last.getDistanceTo(current) / seconds;
 
-                double factor = 0;
+            double factor = 0;
 
-                if(speed > 2 && speed <= 4){
-                    factor = 170.0/360;
-                }
-                else if(speed > 4 && speed <= 6){
-                    factor = 250.0/360;
-                }
-                else if(speed > 6 && speed <= 8){
-                    factor = 450.0/360;
-                }
-                else if(speed > 8 && speed <= 12){
-                    factor = 710.0/360;
-                }
-                else if(speed > 12 && speed <= 16){
-                    factor = 995.0/360;
-                }
-                else if(speed > 16 && speed <= 18){
-                    factor = 1175.0/360;
-                }
-
-                calories += factor * seconds;
+            if (speed > 2 && speed <= 4) {
+                factor = 170.0 / 360;
+            } else if (speed > 4 && speed <= 6) {
+                factor = 250.0 / 360;
+            } else if (speed > 6 && speed <= 8) {
+                factor = 450.0 / 360;
+            } else if (speed > 8 && speed <= 12) {
+                factor = 710.0 / 360;
+            } else if (speed > 12 && speed <= 16) {
+                factor = 995.0 / 360;
+            } else if (speed > 16 && speed <= 18) {
+                factor = 1175.0 / 360;
             }
+
+            calories += factor * seconds;
         }
 
-
-        return (int)Math.round(calories);
+        return (int) Math.round(calories);
     }
 
     public boolean start() {
