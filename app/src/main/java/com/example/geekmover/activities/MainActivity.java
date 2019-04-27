@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = findViewById(R.id.textView);
             textView.setText("Schedule is planned");
 
-            Day day = schedule.getDays().get(0);
+            Day day = schedule.getToday();
             Jog jog = day.getJog();
 
             Button button = findViewById(R.id.button);

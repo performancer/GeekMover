@@ -51,4 +51,8 @@ public class Schedule {
     public boolean hasPlan(){
         return days != null && days.size() > 0;
     }
+
+    public Day getToday(){
+        return days.get(0);
+    }
 }
