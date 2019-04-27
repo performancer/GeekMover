@@ -37,4 +37,15 @@ public class Day {
     public IExercise[] getExercises() {
         return exercises;
     }
+
+    public Jog getJog(){
+
+        for(IExercise exercise : exercises)
+        {
+            if(exercise instanceof Jog)
+                return (Jog)exercise;
+        }
+
+        return null;
+    }
 }

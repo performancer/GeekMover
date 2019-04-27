@@ -16,6 +16,7 @@ public class Schedule {
     }
 
     public Schedule(){
+        days = new ArrayList<>();
     }
 
     public void planWeek(int level){
@@ -45,5 +46,9 @@ public class Schedule {
         }
 
         return new Day();
+    }
+
+    public boolean hasPlan(){
+        return days != null && days.size() > 0;
     }
 }

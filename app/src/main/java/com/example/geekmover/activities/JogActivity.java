@@ -1,5 +1,6 @@
 package com.example.geekmover.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -8,6 +9,8 @@ import com.example.geekmover.Coordinates;
 import com.example.geekmover.JogProgram;
 import com.example.geekmover.data.Jog;
 import com.example.geekmover.R;
+
+import java.io.Serializable;
 
 public class JogActivity extends AppCompatActivity {
 
@@ -18,8 +21,16 @@ public class JogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jog);
 
-        jogProgram = new JogProgram(this, new Jog(2500));
-        jogProgram.start();
+        Serializable serializable = getIntent().getSerializableExtra("Jog");
+
+        if(serializable instanceof Jog) {
+            jogProgram = new JogProgram(this, (Jog)serializable);
+            jogProgram.start();
+        }
+        else{
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void Update() {
