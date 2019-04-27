@@ -137,24 +137,10 @@ public class JogProgram implements LocationListener {
 
             double seconds = (current.getTimestamp().getTime() - last.getTimestamp().getTime()) / 1000f;
             double speed = last.getDistanceTo(current) / seconds;
+            double factor = (speed * (0.7 * speed + 56)) / 360;
+            double bmi = 1.0 + (data.getBMI() - 20) / 20;
 
-            double factor = 0;
-
-            if (speed > 2 && speed <= 4) {
-                factor = 170.0 / 360;
-            } else if (speed > 4 && speed <= 6) {
-                factor = 250.0 / 360;
-            } else if (speed > 6 && speed <= 8) {
-                factor = 450.0 / 360;
-            } else if (speed > 8 && speed <= 12) {
-                factor = 710.0 / 360;
-            } else if (speed > 12 && speed <= 16) {
-                factor = 995.0 / 360;
-            } else if (speed > 16 && speed <= 18) {
-                factor = 1175.0 / 360;
-            }
-
-            calories += factor * seconds;
+            calories += factor * bmi * seconds;
         }
 
         return (int) Math.round(calories);

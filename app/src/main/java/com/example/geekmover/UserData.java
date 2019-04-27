@@ -31,6 +31,10 @@ public class UserData {
         return weight;
     }
 
+    public double getBMI(){
+        return weight / Math.pow(height / 100d, 2);
+    }
+
     public void LoadData(SharedPreferences pref){
         level = pref.getInt("level", 1);
         height = pref.getInt("height", 0);
