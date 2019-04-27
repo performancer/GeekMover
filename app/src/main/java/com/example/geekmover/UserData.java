@@ -1,5 +1,7 @@
 package com.example.geekmover;
 
+import android.content.SharedPreferences;
+
 public class UserData {
     private static final UserData ourInstance = new UserData();
 
@@ -27,5 +29,20 @@ public class UserData {
 
     public int getWeight() {
         return weight;
+    }
+
+    public void LoadData(SharedPreferences pref){
+        level = pref.getInt("level", 1);
+        height = pref.getInt("height", 0);
+        weight = pref.getInt("weight", 0);
+    }
+
+    public void SaveData(SharedPreferences pref){
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putInt("level", level);
+        editor.putInt("height", height);
+        editor.putInt("weight", weight);
+        editor.apply();
     }
 }

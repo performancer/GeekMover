@@ -1,6 +1,8 @@
 package com.example.geekmover.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,17 +11,22 @@ import android.widget.TextView;
 
 import com.example.geekmover.R;
 import com.example.geekmover.Schedule;
+import com.example.geekmover.UserData;
 import com.example.geekmover.data.Day;
 import com.example.geekmover.data.Jog;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences pref;
     private Schedule schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        UserData.getInstance().LoadData(pref);
 
         schedule = new Schedule();
 
@@ -30,7 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
         button.setText(planned ? "Start a Jog" : "Plan a Schedule");
+    }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        UserData.getInstance().SaveData(pref);
     }
 
     public void OnClick(View view){
@@ -49,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            schedule.planWeek(2);
+            schedule.planWeek(UserData.getInstance().getLevel());
 
             TextView textView = findViewById(R.id.textView);
             textView.setText("Schedule is planned");

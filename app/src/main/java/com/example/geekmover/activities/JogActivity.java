@@ -28,8 +28,7 @@ public class JogActivity extends AppCompatActivity {
             jogProgram.start();
         }
         else{
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            finish();
         }
     }
 
