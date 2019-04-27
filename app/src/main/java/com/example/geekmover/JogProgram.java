@@ -150,15 +150,15 @@ public class JogProgram implements LocationListener {
                     calories += (450.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
                 }
                 else if(speed > 8 && speed <= 12){
-                    calories += (1175.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    calories += (710.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
                 }
                 else if(speed > 12 && speed <= 16){
                     calories += (995.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
                 }
                 else if(speed > 16 && speed <= 18){
-                    calories += (170.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                    calories += (1175.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
                 }
-                else if(speed > 10){
+                else if(speed > 18){
                     System.out.println("ajat autolla vitun pelle");
                 }
             }

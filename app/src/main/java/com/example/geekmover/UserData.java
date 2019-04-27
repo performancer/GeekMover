@@ -9,6 +9,7 @@ public class UserData {
 
     private int level, height, weight;
 
+
     private UserData() {
     }
 
