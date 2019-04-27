@@ -125,10 +125,47 @@ public class JogProgram implements LocationListener {
         return getTotalDistance() >= getGoal();
     }
 
-    public double getCaloriesBurned(){
+    public int getCaloriesBurned(){
         UserData data = UserData.getInstance();
 
-        return 0;
+        double calories = 0;
+
+        if(coordinatesArrayList.size() >= 2)
+        {
+            for(int i = 1; i < coordinatesArrayList.size(); i++){
+
+                Coordinates last = coordinatesArrayList.get(i - 1);
+                Coordinates current = coordinatesArrayList.get(i);
+
+                double speed = last.getDistanceTo(current)/(current.getTimestamp().getTime()-last.getTimestamp().getTime());
+
+
+                if(speed > 2 && speed <= 4){
+                    calories += (170.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                }
+                else if(speed > 4 && speed <= 6){
+                    calories += (250.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                }
+                else if(speed > 6 && speed <= 8){
+                    calories += (450.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                }
+                else if(speed > 8 && speed <= 12){
+                    calories += (1175.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                }
+                else if(speed > 12 && speed <= 16){
+                    calories += (995.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                }
+                else if(speed > 16 && speed <= 18){
+                    calories += (170.0/360 * (current.getTimestamp().getTime()-last.getTimestamp().getTime()));
+                }
+                else if(speed > 10){
+                    System.out.println("ajat autolla vitun pelle");
+                }
+            }
+        }
+
+
+        return (int)Math.round(calories);
     }
 
     public boolean start() {
