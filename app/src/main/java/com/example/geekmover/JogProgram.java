@@ -13,8 +13,6 @@ import android.util.Log;
 import com.example.geekmover.activities.JogActivity;
 import com.example.geekmover.data.Jog;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class JogProgram implements LocationListener {
 
@@ -65,22 +63,6 @@ public class JogProgram implements LocationListener {
 
         return (int) distance;
     }
-
-    //Obsolete, was replaced by Coordinates.getDistance(Coordinates to)
-    /*private double getDistanceBetweenCoordinates(Coordinates one, Coordinates two){
-        double radius = 6371000;
-        double dLat = Math.toRadians(two.getLatitude() - one.getLatitude());
-        double dLon = Math.toRadians(two.getLongitude()- one.getLongitude());
-
-        double lastLatInRadians = Math.toRadians(one.getLatitude());
-        double currentLatInRadians = Math.toRadians(two.getLatitude());
-
-        double a = Math.pow(Math.sin(dLat/2), 2) + Math.pow(Math.sin(dLon/2), 2) * Math.cos(lastLatInRadians) * Math.cos(currentLatInRadians);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-        return radius * c;
-    }*/
 
     public int getGoal(){
         if(jog != null)

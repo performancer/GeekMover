@@ -41,13 +41,8 @@ public class Schedule {
         if(days == null)
             days = new ArrayList<>();
 
-        Date date;
-
-        if (days.size() > 0) {
-            date = days.get(days.size() - 1).getDate();
-            date = new Date(date.getTime() + 86400000);
-        } else
-            date = Calendar.getInstance().getTime();
+        Date date = getNextDate();
+        Day day;
 
         if (level > 0) {
             IExercise[] exercises = new IExercise[]
@@ -57,10 +52,20 @@ public class Schedule {
                             new Exercise("sit-ups", level * 5),
                     };
 
-            days.add(new Day(date, exercises));
-        } else {
-            days.add(new Day(date));
+            day = new Day(date, exercises);
         }
+        else {
+            day = new Day(date);
+        }
+
+        days.add(day);
+    }
+
+    private Date getNextDate() {
+        if (days != null && days.size() > 0)
+            return new Date(days.get(days.size() - 1).getDate().getTime() + 86400000);
+        else
+            return Calendar.getInstance().getTime();
     }
 
     public boolean hasPlan(){

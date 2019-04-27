@@ -36,7 +36,7 @@ public class UserData {
     }
 
     public void LoadData(SharedPreferences pref){
-        level = pref.getInt("level", 1);
+        level = pref.getInt("level", 5);
         height = pref.getInt("height", 0);
         weight = pref.getInt("weight", 0);
     }
