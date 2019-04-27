@@ -5,7 +5,10 @@ import com.example.geekmover.data.Exercise;
 import com.example.geekmover.data.IExercise;
 import com.example.geekmover.data.Jog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Schedule {
 
@@ -24,17 +27,29 @@ public class Schedule {
         int rest = 0;
         int slower = level - 1;
 
-        days.add(planDay(slower));
-        days.add(planDay(level));
-        days.add(planDay(rest));
-        days.add(planDay(level));
-        days.add(planDay(slower));
-        days.add(planDay(level));
-        days.add(planDay(rest));
+        planDay(slower);
+        planDay(level);
+        planDay(rest);
+        planDay(level);
+        planDay(slower);
+        planDay(level);
+        planDay(rest);
     }
 
-    private Day planDay(int level){
-        if(level > 0) {
+    private void planDay(int level) {
+
+        if(days == null)
+            days = new ArrayList<>();
+
+        Date date;
+
+        if (days.size() > 0) {
+            date = days.get(days.size() - 1).getDate();
+            date = new Date(date.getTime() + 86400000);
+        } else
+            date = Calendar.getInstance().getTime();
+
+        if (level > 0) {
             IExercise[] exercises = new IExercise[]
                     {
                             new Jog(level * 750),
@@ -42,17 +57,27 @@ public class Schedule {
                             new Exercise("sit-ups", level * 5),
                     };
 
-            return new Day(exercises);
+            days.add(new Day(date, exercises));
+        } else {
+            days.add(new Day(date));
         }
-
-        return new Day();
     }
 
     public boolean hasPlan(){
         return days != null && days.size() > 0;
     }
 
-    public Day getToday(){
-        return days.get(0);
+    public Day getToday() {
+
+        Date now = Calendar.getInstance().getTime();
+
+        for (Day day : days) {
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+
+            if (fmt.format(day.getDate()).equals(fmt.format(now)))
+                return day;
+        }
+
+        return null;
     }
 }

@@ -1,13 +1,18 @@
 package com.example.geekmover.data;
 
+import java.util.Date;
+
 public class Day {
+    private Date date;
     private IExercise[] exercises;
 
-    public Day(){
+    public Day(Date date){
+        this.date = date;
         this.exercises = new IExercise[0];
     }
 
-    public Day(IExercise[] exercises) {
+    public Day(Date date, IExercise[] exercises) {
+        this.date = date;
         this.exercises = exercises;
     }
 
@@ -36,6 +41,10 @@ public class Day {
 
     public IExercise[] getExercises() {
         return exercises;
+    }
+
+    public Date getDate(){
+        return date;
     }
 
     public Jog getJog(){
