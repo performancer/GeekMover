@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         UserData.getInstance().LoadData(pref);
 
-        schedule = new Schedule();
+        schedule = UserData.getInstance().getSchedule();
 
         boolean planned = schedule.hasPlan();
 

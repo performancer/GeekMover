@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class Jog implements IExercise, Serializable {
 
+    private String name;
     private boolean finished;
     private int amount;
 
@@ -14,6 +15,11 @@ public class Jog implements IExercise, Serializable {
         this.amount = amount;
     }
 
+
+    @Override
+    public String getName(){
+        return null;
+    }
     @Override
     public int getAmount(){return amount;}
 
