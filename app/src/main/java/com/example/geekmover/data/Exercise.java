@@ -2,7 +2,9 @@ package com.example.geekmover.data;
 
 import com.example.geekmover.UserData;
 
-public class Exercise implements IExercise {
+import java.io.Serializable;
+
+public class Exercise implements IExercise, Serializable {
 
     private String name;
     private int amount;

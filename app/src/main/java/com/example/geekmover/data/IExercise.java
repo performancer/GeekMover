@@ -1,4 +1,5 @@
 package com.example.geekmover.data;
+import java.io.Serializable;
 
 public interface IExercise {
     int getAmount();

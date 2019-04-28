@@ -18,19 +18,18 @@ import com.example.geekmover.data.Jog;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
-    private Schedule schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        UserData data = UserData.getInstance();
+
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        UserData.getInstance().LoadData(pref);
+        data.LoadData(pref, getApplicationContext());
 
-        schedule = new Schedule();
-
-        boolean planned = schedule.hasPlan();
+        boolean planned = data.getSchedule().hasPlan();
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(planned ? "Schedule is planned" : "Schedule is not planned");
@@ -42,10 +41,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        UserData.getInstance().SaveData(pref);
+        UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
     public void OnClick(View view){
+
+        Schedule schedule = UserData.getInstance().getSchedule();
+
         boolean planned = schedule.hasPlan();
 
         if(planned){
