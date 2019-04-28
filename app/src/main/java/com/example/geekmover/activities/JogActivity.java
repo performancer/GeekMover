@@ -1,6 +1,7 @@
 package com.example.geekmover.activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -9,12 +10,21 @@ import com.example.geekmover.Coordinates;
 import com.example.geekmover.JogProgram;
 import com.example.geekmover.data.Jog;
 import com.example.geekmover.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.Serializable;
 
-public class JogActivity extends AppCompatActivity {
+//public class JogActivity extends AppCompatActivity {
+public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private JogProgram jogProgram;
+
+    GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,11 @@ public class JogActivity extends AppCompatActivity {
         else{
             finish();
         }
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
     }
 
     public void Update() {
@@ -71,5 +86,14 @@ public class JogActivity extends AppCompatActivity {
 
         TextView caloriesView = findViewById(R.id.caloriesView);
         caloriesView.setText(calories + " kcal");
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        LatLng Vihti = new LatLng (60.417335, 24.324265);
+        map.addMarker(new MarkerOptions().position(Vihti).title("Taistelu-Jaskan Kotimaa"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(Vihti));
     }
 }
