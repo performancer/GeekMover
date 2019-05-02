@@ -27,22 +27,29 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
+        final ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
+
+        final Calendar calendar = Calendar.getInstance();
+        //calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
         CalendarView calendarView = findViewById(R.id.calendarView);
+
+        calendarView.setMinDate(Calendar.getInstance().getTime().getTime());
+        calendarView.setMaxDate(days.get(days.size()-1).getDate().getTime());
+
         final TextView dateText = findViewById(R.id.dateText);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
 
-                String dateS = dayOfMonth+"/"+month+"/"+year;
-                Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
 
-                ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
+
 
                 for (Day day : days) {
                     SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.US);
