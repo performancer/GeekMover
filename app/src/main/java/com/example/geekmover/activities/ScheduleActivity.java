@@ -30,12 +30,7 @@ public class ScheduleActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
-
         final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
 
         CalendarView calendarView = findViewById(R.id.calendarView);
 
@@ -43,6 +38,12 @@ public class ScheduleActivity extends AppCompatActivity {
         calendarView.setMaxDate(days.get(days.size()-1).getDate().getTime());
 
         final TextView dateText = findViewById(R.id.dateText);
+
+        String text = "Exercises for the day:\n";
+        for(IExercise exercise : days.get(0).getExercises()) {
+            text += exercise.toString() + "\n";
+        }
+        dateText.setText(text);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -72,9 +73,7 @@ public class ScheduleActivity extends AppCompatActivity {
                         dateText.setText("Day has not been planned");
                     }
                 }
-
             }
         });
-
     }
 }
