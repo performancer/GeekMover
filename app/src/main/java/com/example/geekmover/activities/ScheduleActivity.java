@@ -62,7 +62,7 @@ public class ScheduleActivity extends AppCompatActivity {
                         if(length > 0) {
                             String text = "Exercises for the day:\n";
                             for(IExercise exercise : day.getExercises())
-                                text = exercise.toString() + "\n";
+                                text += exercise.toString() + "\n";
 
                             dateText.setText(text);
                         }
