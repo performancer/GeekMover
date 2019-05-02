@@ -32,7 +32,6 @@ public class ScheduleActivity extends AppCompatActivity {
         final ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
 
         final Calendar calendar = Calendar.getInstance();
-        //calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -52,14 +51,12 @@ public class ScheduleActivity extends AppCompatActivity {
                 calendar.set(year, month, dayOfMonth);
 
                 for (Day day : days) {
-                    SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.US);
+                    SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
 
                     if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
                         dateText.setText("Day has been planned\n" + calendar.getTime().toString());
 
-                        int length = day.getExercises().length;
-
-                        if(length > 0) {
+                        if(day.getExercises().length > 0) {
                             String text = "Exercises for the day:\n";
                             for(IExercise exercise : day.getExercises())
                                 text += exercise.toString() + "\n";
