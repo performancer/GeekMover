@@ -18,7 +18,7 @@ public class UserData {
 
     private Schedule schedule;
     private final String path = "schedule";
-    private int level, height, weight;
+    private int level, phase, height, weight;
 
     private UserData() {
 
@@ -30,6 +30,10 @@ public class UserData {
 
     public void setLevel(int level){
         this.level = level;
+    }
+
+    public int getPhase(){
+        return phase;
     }
 
     public int getHeight() {
@@ -49,7 +53,8 @@ public class UserData {
     }
 
     public void LoadData(SharedPreferences pref, Context context) {
-        level = pref.getInt("level", 5);
+        level = pref.getInt("level", 1);
+        phase = pref.getInt("phase", 20);
         height = pref.getInt("height", 0);
         weight = pref.getInt("weight", 0);
 
@@ -75,6 +80,7 @@ public class UserData {
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putInt("level", level);
+        editor.putInt("phase", phase);
         editor.putInt("height", height);
         editor.putInt("weight", weight);
         editor.apply();

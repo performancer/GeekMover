@@ -13,58 +13,62 @@ import java.util.Date;
 
 public class Schedule implements Serializable {
 
-    private ArrayList<Day> days;
+    private final int millisecondsInDay = 86400000;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-    public ArrayList<Day> getDays() {
-        return days;
-    }
+    private ArrayList<Day> days;
 
     public Schedule(){
         days = new ArrayList<>();
     }
 
-    public void planWeek(int level){
+    public void plan() {
 
-        int rest = 0;
-        int slower = level - 1;
+        UserData data = UserData.getInstance();
+        Day today = getToday();
 
-        planDay(slower);
-        planDay(level);
-        planDay(rest);
-        planDay(level);
-        planDay(slower);
-        planDay(level);
-        planDay(rest);
+        int todayIndex = days.indexOf(today);
+        int daysPlanned = days.size() - todayIndex;
+
+        for (int i = 0; i < 30 - daysPlanned; i++) {
+            int level = data.getLevel();
+
+            planDay(level);
+
+            if(level < 20 && days.size() % data.getPhase() == 0)
+                data.setLevel(level + 1);
+        }
     }
 
     private void planDay(int level) {
 
-        if(days == null)
-            days = new ArrayList<>();
+        if(days.size() > 0 && days.size() % 3 == 0)
+            level = 0; //rest day
+        else if(days.size() > 0 && (days.size() - 1) % 3 == 0)
+            level--; //easier day
 
         Date date = getNextDate();
-        Day day;
+        IExercise[] exercises = new IExercise[0];
 
         if (level > 0) {
-            IExercise[] exercises = new IExercise[]
+            exercises = new IExercise[]
                     {
-                            new Jog(level * 750),
+                            new Jog(level * 300),
                             new Exercise("push-ups", level * 3),
                             new Exercise("sit-ups", level * 5),
                     };
-
-            day = new Day(date, exercises);
-        }
-        else {
-            day = new Day(date);
         }
 
-        days.add(day);
+        days.add(new Day(date, exercises));
+    }
+
+    public ArrayList<Day> getDays() {
+        return days;
     }
 
     private Date getNextDate() {
         if (days != null && days.size() > 0)
-            return new Date(days.get(days.size() - 1).getDate().getTime() + 86400000);
+            return new Date(days.get(days.size() - 1).getDate().getTime() + millisecondsInDay);
         else
             return Calendar.getInstance().getTime();
     }
@@ -78,9 +82,7 @@ public class Schedule implements Serializable {
         Date now = Calendar.getInstance().getTime();
 
         for (Day day : days) {
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-
-            if (fmt.format(day.getDate()).equals(fmt.format(now)))
+            if (dateFormat.format(day.getDate()).equals(dateFormat.format(now)))
                 return day;
         }
 

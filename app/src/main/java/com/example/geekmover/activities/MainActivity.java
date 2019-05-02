@@ -32,19 +32,19 @@ public class MainActivity extends AppCompatActivity {
         data.LoadData(pref, getApplicationContext());
 
         Schedule schedule = data.getSchedule();
+        schedule.plan();
+
         boolean planned = schedule.hasPlan();
-
-        TextView textView = findViewById(R.id.textView);
-        textView.setText(planned ? "Schedule is planned" : "Schedule is not planned");
-
-        Button button = findViewById(R.id.button);
-        button.setText(planned ? "Start a Jog" : "Plan a Schedule");
 
         if(planned)
         {
             Day day = schedule.getToday();
 
-            TextView todayText = findViewById(R.id.todayView);
+            TextView view = findViewById(R.id.textView);
+            view.setText("You are currently at level " + data.getLevel());
+
+            Button button = findViewById(R.id.button);
+            button.setText(day.getJog() != null ? "Start a Jog" : "No Jog for today!");
 
             String text;
             int length = day.getExercises().length;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 text = "Today is a rest day! :)";
             }
 
+            TextView todayText = findViewById(R.id.todayView);
             todayText.setText(text);
         }
     }
@@ -82,11 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         Schedule schedule = UserData.getInstance().getSchedule();
 
-        boolean planned = schedule.hasPlan();
+        if(schedule.hasPlan()){
 
-        if(planned){
-
-            Day day = schedule.getDays().get(0);
+            Day day = schedule.getToday();
             Jog jog = day.getJog();
 
             if(jog != null)
@@ -95,18 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Jog", jog);
                 startActivity(intent);
             }
-        }
-        else {
-            schedule.planWeek(UserData.getInstance().getLevel());
-
-            TextView textView = findViewById(R.id.textView);
-            textView.setText("Schedule is planned");
-
-            Day day = schedule.getToday();
-            Jog jog = day.getJog();
-
-            Button button = findViewById(R.id.button);
-            button.setText(jog != null ? "Start a Jog" : "No Jog for you!");
         }
     }
 }
