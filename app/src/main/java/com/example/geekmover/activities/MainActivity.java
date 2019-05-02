@@ -36,12 +36,20 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
         button.setText(planned ? "Start a Jog" : "Plan a Schedule");
+
+        Button calendar = findViewById(R.id.button2);
+        calendar.setText("calendar");
     }
 
     @Override
     protected void onStop(){
         super.onStop();
         UserData.getInstance().SaveData(pref, getApplicationContext());
+    }
+
+    public void onCalendarClick(View view){
+        Intent intent = new Intent(this, ScheduleActivity.class);
+        startActivity(intent);
     }
 
     public void OnClick(View view){
