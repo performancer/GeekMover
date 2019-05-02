@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JogProgram implements LocationListener {
 
@@ -194,5 +195,15 @@ public class JogProgram implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public List<LatLng> getLatLngList(){
+        List<LatLng> latLngList = new ArrayList<>();
+
+        for(int i = 0; i < coordinatesArrayList.size(); i++){
+            latLngList.add(coordinatesArrayList.get(i).getLatLng());
+        }
+
+        return latLngList;
     }
 }

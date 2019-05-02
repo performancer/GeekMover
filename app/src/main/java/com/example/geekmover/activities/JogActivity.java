@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -29,9 +30,10 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
 
     GoogleMap map;
 
-    List<LatLng> points = new ArrayList<>();
+    //List<LatLng> points = new ArrayList<>();
     private Polyline polyline = null;
     private PolylineOptions polylineOptions = null;
+
 
 
     @Override
@@ -119,20 +121,18 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     public void updatePolyLine(){
-        Coordinates coordinates = jogProgram.getLatestCoordinates();
-        LatLng myLocation = coordinates.getLatLng();
-        points.add(myLocation); //add current location to the points array
+        List<LatLng> latLngList = jogProgram.getLatLngList();
 
-        polyline.setPoints(points); //draw a polyline based on all points
+        polyline.setPoints(latLngList); //draw a polyline based on all points
 
-        //System.out.println(Arrays.toString(points.toArray()));
+        System.out.println(Arrays.toString(latLngList.toArray()));
     }
 
     public void updateCamera(){
         Coordinates coordinates = jogProgram.getLatestCoordinates();
 
         LatLng myLocation = coordinates.getLatLng();
-        //map.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f));
     }
 
