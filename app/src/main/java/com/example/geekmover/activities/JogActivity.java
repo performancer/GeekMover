@@ -63,8 +63,8 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         double latitude = coordinates.getLatitude();
         double longitude = coordinates.getLongitude();
 
-        TextView view = findViewById(R.id.coordinatesView);
-        view.setText("lat:" + latitude + " long:"+ longitude);
+        //TextView view = findViewById(R.id.coordinatesView);
+        //view.setText("lat:" + latitude + " long:"+ longitude);
 
         String text;
 
