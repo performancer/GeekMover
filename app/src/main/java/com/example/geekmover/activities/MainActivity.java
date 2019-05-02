@@ -15,6 +15,8 @@ import com.example.geekmover.UserData;
 import com.example.geekmover.data.Day;
 import com.example.geekmover.data.Jog;
 
+import java.text.SimpleDateFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
@@ -29,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         data.LoadData(pref, getApplicationContext());
 
-        boolean planned = data.getSchedule().hasPlan();
+        Schedule schedule = data.getSchedule();
+        boolean planned = schedule.hasPlan();
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(planned ? "Schedule is planned" : "Schedule is not planned");
@@ -37,8 +40,31 @@ public class MainActivity extends AppCompatActivity {
         Button button = findViewById(R.id.button);
         button.setText(planned ? "Start a Jog" : "Plan a Schedule");
 
-        Button calendar = findViewById(R.id.button2);
-        calendar.setText("calendar");
+        if(planned)
+        {
+            Day day = schedule.getToday();
+
+            TextView todayText = findViewById(R.id.todayView);
+
+            String text;
+            int length = day.getExercises().length;
+
+            if(length > 0) {
+                text = "Today " + SimpleDateFormat.getDateInstance().format(day.getDate()) + "\n";
+
+                if (length > 1)
+                    text += "There are " + length + " exercises for today\n";
+                else
+                    text += "There is one exercise for today\n";
+
+                text += day.getCurrentCaloriesBurned() + "/" + day.getTotalCaloriesBurned() + "kcal";
+            }
+            else {
+                text = "Today is a rest day! :)";
+            }
+
+            todayText.setText(text);
+        }
     }
 
     @Override
