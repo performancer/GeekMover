@@ -27,6 +27,8 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
 
         final Calendar calendar = Calendar.getInstance();
@@ -49,24 +51,29 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 calendar.set(year, month, dayOfMonth);
 
-
-
                 for (Day day : days) {
                     SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.US);
 
                     if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
                         dateText.setText("Day has been planned\n" + calendar.getTime().toString());
-                        String stringSum = "Exercises for the day:\n";
 
-                        for(int i = 0; i < day.getExercises().length - 1; i++){
-                                stringSum += day.getExercises()[i].toString()+"\n";
+                        int length = day.getExercises().length;
+
+                        if(length > 0) {
+                            String text = "Exercises for the day:\n";
+                            for(IExercise exercise : day.getExercises())
+                                text = exercise.toString() + "\n";
+
+                            dateText.setText(text);
                         }
-                        dateText.setText(stringSum);
+                        else{
+                            dateText.setText("No exercises for this day, rest well!");
+                        }
+
                         break;
                     }else{
                         dateText.setText("Day has not been planned");
                     }
-
                 }
 
             }
