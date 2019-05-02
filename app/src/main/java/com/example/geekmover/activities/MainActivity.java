@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void OnClick(View view){
 
         Schedule schedule = UserData.getInstance().getSchedule();
@@ -96,4 +97,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
