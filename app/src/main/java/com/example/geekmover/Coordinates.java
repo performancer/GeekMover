@@ -1,4 +1,6 @@
 package com.example.geekmover;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -39,5 +41,11 @@ public class Coordinates {
 
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public LatLng getLatLng(){
+        LatLng latLng = new LatLng (latitude,longitude);
+
+        return latLng;
     }
 }

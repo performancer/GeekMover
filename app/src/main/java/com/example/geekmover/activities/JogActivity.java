@@ -1,8 +1,7 @@
 package com.example.geekmover.activities;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -15,9 +14,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 //public class JogActivity extends AppCompatActivity {
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -25,6 +28,11 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     private JogProgram jogProgram;
 
     GoogleMap map;
+
+    List<LatLng> points = new ArrayList<>();
+    private Polyline polyline = null;
+    private PolylineOptions polylineOptions = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +52,6 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     public void Update() {
@@ -86,14 +93,47 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
 
         TextView caloriesView = findViewById(R.id.caloriesView);
         caloriesView.setText(calories + " kcal");
+
+        drawPolyLine();
+        updateCamera();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
-        LatLng Vihti = new LatLng (60.417335, 24.324265);
-        map.addMarker(new MarkerOptions().position(Vihti).title("Taistelu-Jaskan Kotimaa"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(Vihti));
     }
+
+    public void drawPolyLine(){
+        if(polylineOptions == null){ // create a polyline if there is no polyline
+            createPolyLine();
+        }
+
+        if (polylineOptions != null) { // if polyline exists, update it
+            updatePolyLine();
+        }
+    }
+
+    public void createPolyLine(){
+        polylineOptions = new PolylineOptions().width(3).color(Color.RED).geodesic(true);
+        polyline = map.addPolyline(polylineOptions);
+    }
+
+    public void updatePolyLine(){
+        Coordinates coordinates = jogProgram.getLatestCoordinates();
+        LatLng myLocation = coordinates.getLatLng();
+        points.add(myLocation); //add current location to the points array
+
+        polyline.setPoints(points); //draw a polyline based on all points
+
+        //System.out.println(Arrays.toString(points.toArray()));
+    }
+
+    public void updateCamera(){
+        Coordinates coordinates = jogProgram.getLatestCoordinates();
+
+        LatLng myLocation = coordinates.getLatLng();
+        //map.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f));
+    }
+
 }

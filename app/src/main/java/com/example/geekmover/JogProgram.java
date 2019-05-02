@@ -12,6 +12,10 @@ import android.util.Log;
 
 import com.example.geekmover.activities.JogActivity;
 import com.example.geekmover.data.Jog;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 
 public class JogProgram implements LocationListener {
