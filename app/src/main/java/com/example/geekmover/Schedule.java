@@ -1,5 +1,7 @@
 package com.example.geekmover;
 
+import android.util.Log;
+
 import com.example.geekmover.data.Day;
 import com.example.geekmover.data.Exercise;
 import com.example.geekmover.data.IExercise;
@@ -41,6 +43,8 @@ public class Schedule implements Serializable {
     }
 
     private void planDay(int level) {
+
+        Log.d("Debug", "Planning a day...");
 
         if(days.size() > 0 && days.size() % 3 == 0)
             level = 0; //rest day

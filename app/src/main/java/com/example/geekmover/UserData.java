@@ -58,17 +58,20 @@ public class UserData {
         height = pref.getInt("height", 0);
         weight = pref.getInt("weight", 0);
 
-        try{
-            FileInputStream fis = context.openFileInput(path);
-            ObjectInputStream is = new ObjectInputStream(fis);
-            schedule = (Schedule) is.readObject();
-            is.close();
-            fis.close();
+        try {
+            try (FileInputStream fis = context.openFileInput(path)) {
+                try (ObjectInputStream is = new ObjectInputStream(fis)) {
+                    schedule = (Schedule) is.readObject();
+                }
+            }
         }
         catch(IOException e){
             e.printStackTrace();
         }
         catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        catch(NullPointerException e){
             e.printStackTrace();
         }
 
