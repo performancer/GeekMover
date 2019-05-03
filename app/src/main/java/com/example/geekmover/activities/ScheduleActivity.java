@@ -28,6 +28,8 @@ import java.util.Locale;
 
 public class ScheduleActivity extends AppCompatActivity {
 
+    final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+
     public static final String DATE = "DATE";
     public static final String EINDEX = "EINDEX";
 
@@ -42,7 +44,6 @@ public class ScheduleActivity extends AppCompatActivity {
         final Calendar calendar = Calendar.getInstance();
 
         CalendarView calendarView = findViewById(R.id.calendarView);
-
         calendarView.setMinDate(Calendar.getInstance().getTime().getTime());
         calendarView.setMaxDate(days.get(days.size()-1).getDate().getTime());
 
@@ -50,48 +51,14 @@ public class ScheduleActivity extends AppCompatActivity {
         final String text = "Day has been planned\n" + calendar.getTime().toString();
         dateText.setText(text);
 
-        try {
-            ListView lv = findViewById(R.id.listView);
-
-            lv.setAdapter(new ArrayAdapter<>(
-                    ScheduleActivity.this,
-                    android.R.layout.simple_list_item_1,
-                    days.get(0).getExercises()));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
             calendar.set(year, month, dayOfMonth);
 
             for (final Day day : days) {
-                final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
                 if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
                     dateText.setText("Day has been planned\n" + day.getDate().toString());
-
-                    try {
-                        ListView lv = findViewById(R.id.listView);
-
-                        lv.setAdapter(new ArrayAdapter<>(
-                                ScheduleActivity.this,
-                                android.R.layout.simple_list_item_1,
-                                day.getExercises()));
-
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                                Intent intent = new Intent(ScheduleActivity.this, ExerciseInfoActivity.class);
-
-                                intent.putExtra(DATE, fmt.format(day.getDate()));
-                                intent.putExtra(EINDEX, i);
-
-                                startActivity(intent);
-                            }
-                        });
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
                     break;
                 }else{
                     dateText.setText("Day has not been planned");
@@ -99,5 +66,35 @@ public class ScheduleActivity extends AppCompatActivity {
             }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        final Day day = UserData.getInstance().getSchedule().getToday();
+
+        try {
+            ListView lv = findViewById(R.id.listView);
+
+            lv.setAdapter(new ArrayAdapter<>(
+                    ScheduleActivity.this,
+                    android.R.layout.simple_list_item_1,
+                    day.getExercises()));
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+                    Intent intent = new Intent(ScheduleActivity.this, ExerciseInfoActivity.class);
+
+                    intent.putExtra(DATE, fmt.format(day.getDate()));
+                    intent.putExtra(EINDEX, i);
+
+                    startActivity(intent);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
