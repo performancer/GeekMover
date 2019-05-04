@@ -36,6 +36,14 @@ public class UserData {
         return phase;
     }
 
+    public void setHeight(int h){
+        height = h;
+    }
+
+    public void setWeight(int w){
+        weight = w;
+    }
+
     public int getHeight() {
         return height;
     }
@@ -45,7 +53,8 @@ public class UserData {
     }
 
     public double getBMI(){
-        return weight / Math.pow(height / 100d, 2);
+        //return (weight / Math.pow(height / 100d, 2));
+        return (Math.round( ( (weight / Math.pow(height / 100d, 2)) *10))/10.0d);
     }
 
     public Schedule getSchedule(){

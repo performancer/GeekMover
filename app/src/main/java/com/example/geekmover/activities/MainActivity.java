@@ -65,17 +65,51 @@ public class MainActivity extends AppCompatActivity {
 
             TextView todayText = findViewById(R.id.todayView);
             todayText.setText(text);
+
+            //save data
+            UserData.getInstance().SaveData(pref, getApplicationContext());
+
+            System.out.println("Oncreate: Level,height,weight " + data.getLevel() + data.getHeight() + data.getWeight());
         }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        //System.out.println("OnStart");
+        //loadData();
+
+        //TextView view = findViewById(R.id.textView);
+        //view.setText("You are currently at level " + UserData.getInstance().getLevel());
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        System.out.println("OnResume");
+
+        loadData();
+
+        TextView view = findViewById(R.id.textView);
+        view.setText("You are currently at level " + UserData.getInstance().getLevel());
+
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        UserData.getInstance().SaveData(pref, getApplicationContext());
+        //UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
     public void onCalendarClick(View view){
         Intent intent = new Intent(this, ScheduleActivity.class);
+        startActivity(intent);
+    }
+
+    public void onUserInputClick(View view){
+        Intent intent = new Intent(this, UserInputActivity.class);
         startActivity(intent);
     }
 
@@ -98,5 +132,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void loadData(){
+        UserData data = UserData.getInstance();
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        data.LoadData(pref, getApplicationContext());
+
+        System.out.println("Level,height,weight " + data.getLevel() + data.getHeight() + data.getWeight());
+    }
 
 }

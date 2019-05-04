@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outputBMI"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.UserInputActivity">
@@ -29,17 +30,17 @@
         app:layout_constraintTop_toBottomOf="@+id/inputWeight" />
 
     <TextView
-        android:id="@+id/bmiTextView"
+        android:id="@+id/showBMITextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="BMI"
+        android:text="0"
         android:textSize="36sp"
         app:layout_constraintEnd_toStartOf="@+id/weightTextView"
         app:layout_constraintStart_toEndOf="@+id/heightTextView"
-        app:layout_constraintTop_toBottomOf="@+id/inputWeight" />
+        app:layout_constraintTop_toBottomOf="@+id/inputLevel" />
 
     <EditText
         android:id="@+id/inputWeight"
@@ -61,13 +62,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/saveButton"
+    <EditText
+        android:id="@+id/inputLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Save"
+        android:layout_marginEnd="8dp"
+        android:hint="Enter Level"
+        app:layout_constraintEnd_toStartOf="@+id/inputWeight"
+        app:layout_constraintHorizontal_bias="0.588"
+        app:layout_constraintStart_toEndOf="@+id/inputHeight"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/loadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onLoadClick"
+        android:text="Load"
+        app:layout_constraintEnd_toStartOf="@+id/saveButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heightTextView" />
 
@@ -80,20 +97,34 @@
         android:onClick="onResetClick"
         android:text="Reset"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/saveButton"
         app:layout_constraintTop_toBottomOf="@+id/weightTextView" />
 
     <Button
-        android:id="@+id/validateButton"
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="onSaveClick"
+        android:text="Save"
+        app:layout_constraintEnd_toStartOf="@+id/resetButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadButton"
+        app:layout_constraintTop_toBottomOf="@+id/showBMITextView" />
+
+    <TextView
+        android:id="@+id/bmiTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:onClick="onValidateClick"
-        android:text="Validate"
-        app:layout_constraintEnd_toStartOf="@+id/resetButton"
-        app:layout_constraintStart_toEndOf="@+id/saveButton"
-        app:layout_constraintTop_toBottomOf="@+id/bmiTextView" />
+        android:text="BMI"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
 
 
 </android.support.constraint.ConstraintLayout>
