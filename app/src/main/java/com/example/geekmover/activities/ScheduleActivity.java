@@ -30,6 +30,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
     final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
 
+
     public static final String DATE = "DATE";
     public static final String EINDEX = "EINDEX";
 
@@ -46,7 +47,6 @@ public class ScheduleActivity extends AppCompatActivity {
         CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setMinDate(Calendar.getInstance().getTime().getTime());
         calendarView.setMaxDate(days.get(days.size()-1).getDate().getTime());
-
         final TextView dateText = findViewById(R.id.dateText);
         final String text = "Day has been planned\n" + calendar.getTime().toString();
         dateText.setText(text);
@@ -54,34 +54,37 @@ public class ScheduleActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-            calendar.set(year, month, dayOfMonth);
+                calendar.set(year, month, dayOfMonth);
 
-            for (final Day day : days) {
-                if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
-                    dateText.setText("Day has been planned\n" + day.getDate().toString());
-                    break;
-                }else{
-                    dateText.setText("Day has not been planned");
+                for (final Day day : days) {
+                    if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
+                        dateText.setText("Day has been planned\n" + day.getDate().toString());
+                        setupListView(day);
+                        break;
+                    }else{
+                        dateText.setText("Day has not been planned");
+                    }
                 }
-            }
             }
         });
     }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
         final Day day = UserData.getInstance().getSchedule().getToday();
-
-        try {
-            ListView lv = findViewById(R.id.listView);
-
+        setupListView(day);
+    }
+    private void setupListView(final Day day) {
+        ListView lv = findViewById(R.id.listView);
+        try{
             lv.setAdapter(new ArrayAdapter<>(
                     ScheduleActivity.this,
                     android.R.layout.simple_list_item_1,
                     day.getExercises()));
-
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
@@ -93,8 +96,9 @@ public class ScheduleActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        }catch (Exception e){
+        }catch(Exception e){
             e.printStackTrace();
         }
+        return;
     }
 }
