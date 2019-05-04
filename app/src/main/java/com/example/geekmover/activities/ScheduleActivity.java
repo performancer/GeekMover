@@ -74,10 +74,10 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         final Day day = UserData.getInstance().getSchedule().getToday();
         setupListView(day);
     }
+
     private void setupListView(final Day day) {
         ListView lv = findViewById(R.id.listView);
         try{
@@ -89,10 +89,8 @@ public class ScheduleActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                     Intent intent = new Intent(ScheduleActivity.this, ExerciseInfoActivity.class);
-
                     intent.putExtra(DATE, fmt.format(day.getDate()));
                     intent.putExtra(EINDEX, i);
-
                     startActivity(intent);
                 }
             });
