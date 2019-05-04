@@ -32,16 +32,20 @@ public class UserData {
         this.level = level;
     }
 
+    public void setPhase(int phase){
+        this.phase = phase;
+    }
+
     public int getPhase(){
         return phase;
     }
 
     public void setHeight(int h){
-        height = h;
+        this.height = h;
     }
 
     public void setWeight(int w){
-        weight = w;
+        this.weight = w;
     }
 
     public int getHeight() {
@@ -53,8 +57,11 @@ public class UserData {
     }
 
     public double getBMI(){
-        //return (weight / Math.pow(height / 100d, 2));
-        return (Math.round( ( (weight / Math.pow(height / 100d, 2)) *10))/10.0d);
+        if(weight <= 0 || height <= 0){
+            return 0;
+        } else {
+            return (Math.round( ( (weight / Math.pow(height / 100d, 2)) *10))/10.0d);
+        }
     }
 
     public Schedule getSchedule(){
