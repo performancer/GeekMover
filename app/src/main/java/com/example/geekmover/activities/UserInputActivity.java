@@ -1,183 +1,83 @@
 package com.example.geekmover.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.geekmover.R;
+import com.example.geekmover.Schedule;
 import com.example.geekmover.UserData;
-
-import java.sql.SQLOutput;
-
-import static java.lang.Math.round;
 
 public class UserInputActivity extends AppCompatActivity {
 
-    private UserData userData = UserData.getInstance( );
-
-    private static final String PREFS = "PrefsFile";
-
+    private UserData userData = UserData.getInstance();
     private SharedPreferences pref;
 
-    //private Button validate;
-    private TextView textViewHeight;
     private EditText inputHeight;
-
-    private TextView textViewWeight;
     private EditText inputWeight;
+    private EditText inputLevel;
+    private EditText inputPhase;
 
     private TextView textViewBMI;
-
-    private EditText inputLevel;
-
-    //private TextView showBMI;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_input);
 
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-
-        //loadData();
-
-
-        //validate = findViewById(R.id.saveButton);
+        loadData();
 
         inputHeight = findViewById(R.id.inputHeight);
-        textViewHeight = findViewById(R.id.heightTextView);
-
         inputWeight = findViewById(R.id.inputWeight);
-        textViewWeight = findViewById(R.id.weightTextView);
-
         textViewBMI = findViewById(R.id.showBMITextView);
-
         inputLevel = findViewById(R.id.inputLevel);
+        inputPhase = findViewById(R.id.inputPhase);
 
-        textViewHeight.setText(Integer.toString(userData.getHeight()));
         inputHeight.setText(Integer.toString(userData.getHeight()));
-
-        textViewWeight.setText(Integer.toString(userData.getWeight()));
         inputWeight.setText(Integer.toString(userData.getWeight()));
-
         textViewBMI.setText(Double.toString(userData.getBMI()));
-
         inputLevel.setText(Integer.toString(userData.getLevel()));
-
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-        //loadData();
-
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-        //loadData();
-
-    }
-
-
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        //Log.d(TAG, "OnPause Called");
-
-        //save here
-        //saveData();
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-        //loadData();
-    }
-
-    @Override
-    protected void onRestart(){
-        super.onRestart();
-
-        //Log.d(TAG, "OnRestart Called");
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-
-        //loadData();
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-
-        //loadData();
-        //Log.d(TAG, "OnStop Called");
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-
-        //loadData();
-        //Log.d(TAG, "OnDestroy Called");
+        inputPhase.setText(Integer.toString(userData.getPhase()));
     }
 
     public void onSaveClick(View view){
-        System.out.println(inputHeight.getText());
-        System.out.println(inputWeight.getText());
-
-            textViewHeight.setText(inputHeight.getText());
-
-            textViewWeight.setText(inputWeight.getText());
+        int levelBeforeSave = userData.getLevel();
+        int phaseBeforeSave = userData.getPhase();
+        boolean noErrors = true;
 
         try {
-            userData.setHeight( Integer.parseInt(inputHeight.getText().toString()) );
+            int heightInput = Integer.parseInt(inputHeight.getText().toString());
+            if(heightInput >= 50 && heightInput <= 300){
+                userData.setHeight(heightInput);
+            } else {
+                noErrors = false;
+            }
         }
 
         catch (NumberFormatException e) {
             System.out.print("Problem" + e);
-            textViewHeight.setText("");
+            noErrors = false;
         }
 
         try {
-            userData.setWeight( Integer.parseInt(inputWeight.getText().toString()) );
+            int weightInput = Integer.parseInt(inputWeight.getText().toString());
+            if (weightInput >= 20 || weightInput <= 400 ){
+                userData.setWeight(weightInput);
+            } else {
+                noErrors = false;
+            }
         }
 
         catch (NumberFormatException e) {
             System.out.print("Problem: " + e);
-            textViewWeight.setText("");
+            noErrors = false;
         }
 
         try{
@@ -185,54 +85,49 @@ public class UserInputActivity extends AppCompatActivity {
             if(userData.getLevel() > 20){
                 userData.setLevel(20);
                 inputLevel.setText("" + 20);
-
+            } else if (userData.getLevel() <= 0) {
+                userData.setLevel(1);
+                inputLevel.setText("" + 1);
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Problem: " + e);
             inputLevel.setText("");
+            noErrors = false;
+        }
+
+        try{
+            userData.setPhase( Integer.parseInt(inputPhase.getText().toString()) );
+            if(userData.getPhase() > 20){
+                userData.setPhase(20);
+                inputPhase.setText("" + 20);
+            } else if (userData.getPhase() <= 0){
+                userData.setPhase(1);
+                inputPhase.setText("" + 1);
+            }
+
+        } catch (NumberFormatException e) {
+            inputPhase.setText("");
+            noErrors = false;
         }
 
         double bmi = userData.getBMI();
 
-        //bmi = Math.round(bmi*10)/10.0d;
-
-        System.out.println(bmi);
-
         textViewBMI.setText("" + bmi );
 
-        //UserData.getInstance().SaveData(prefs, getApplicationContext());
-        saveData();
-    }
+        showToast(noErrors);
 
+        if(noErrors){
 
-    public void onResetClick(View view){
-        inputHeight.setText("");
-        inputWeight.setText("");
-        inputLevel.setText("");
-        textViewHeight.setText("Height");
-        textViewWeight.setText("Weight");
-        textViewBMI.setText("BMI");
+            saveData();
 
-        //userData.setHeight(0);
-        //userData.setWeight(0);
-    }
+            if(levelBeforeSave != userData.getLevel() || phaseBeforeSave != userData.getPhase()){
+                Schedule schedule = UserData.getInstance().getSchedule();
+                schedule.replan();
+            }
 
-    public void onLoadClick(View view){
-        /*
-        prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        userData.LoadData(prefs, getApplicationContext());
-        */
-        //loadData();
-
-        inputHeight.setText(Integer.toString(userData.getHeight()));
-        inputWeight.setText(Integer.toString(userData.getWeight()));
-        textViewHeight.setText(Integer.toString(userData.getHeight()));
-        textViewWeight.setText(Integer.toString(userData.getWeight()));
-        textViewBMI.setText(Double.toString(userData.getBMI()));
-
-        inputLevel.setText(Integer.toString(userData.getLevel()));
-
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void saveData(){
@@ -241,9 +136,23 @@ public class UserInputActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        //prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        //userData.LoadData(prefs, getApplicationContext());
+        UserData data = UserData.getInstance();
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        data.LoadData(pref, getApplicationContext());
     }
 
+    private void showToast(boolean noErrors){
+        String toastMessage;
+        if(noErrors){
+            toastMessage = "Data Saved";
+        } else {
+            toastMessage = "Incorrect Input";
+        }
+
+        Toast saveMessage = Toast.makeText(UserInputActivity.this, toastMessage, Toast.LENGTH_SHORT);
+        saveMessage.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP, 0, 150);
+        saveMessage.show();
+    }
 
 }

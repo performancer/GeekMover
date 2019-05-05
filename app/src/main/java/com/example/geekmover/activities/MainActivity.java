@@ -79,11 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
             TextView todayText = findViewById(R.id.todayView);
             todayText.setText(text);
-
-            //save data
-            UserData.getInstance().SaveData(pref, getApplicationContext());
-
-            System.out.println("Oncreate: Level,height,weight " + data.getLevel() + data.getHeight() + data.getWeight());
         }
     }
 
@@ -120,18 +115,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        //System.out.println("OnStart");
-        //loadData();
-
-        //TextView view = findViewById(R.id.textView);
-        //view.setText("You are currently at level " + UserData.getInstance().getLevel());
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-
-        System.out.println("OnResume");
 
         loadData();
 
@@ -143,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        //UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
     public void onCalendarClick(View view){
@@ -181,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         data.LoadData(pref, getApplicationContext());
-
-        System.out.println("Level,height,weight " + data.getLevel() + data.getHeight() + data.getWeight());
     }
 
 }
