@@ -69,8 +69,6 @@ public class ScheduleActivity extends AppCompatActivity {
         });
     }
 
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -97,6 +95,5 @@ public class ScheduleActivity extends AppCompatActivity {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return;
     }
 }
