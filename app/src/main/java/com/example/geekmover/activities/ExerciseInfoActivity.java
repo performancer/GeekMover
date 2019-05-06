@@ -2,9 +2,11 @@ package com.example.geekmover.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.geekmover.R;
 import com.example.geekmover.Schedule;
@@ -30,9 +32,10 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_info);
 
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+        final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+        final Calendar calendar = Calendar.getInstance();
 
-        String dateString = getIntent().getStringExtra(ScheduleActivity.DATE);
+        final String dateString = getIntent().getStringExtra(ScheduleActivity.DATE);
         int EIndex = getIntent().getIntExtra(ScheduleActivity.EINDEX, 0);
 
         ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
@@ -41,7 +44,6 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         double caloriesBurned = 0;
         boolean finished = false;
 
-        //final Calendar calendar = Calendar.getInstance();
         for(Day day : days){
             if (fmt.format(day.getDate()).equals(dateString)) {
                 exercise = day.getExercises()[EIndex];
@@ -62,7 +64,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         }
 
         nameView.setText(name);
-        caloriesView.setText(caloriesBurned + " calories burned");
+        caloriesView.setText(Math.round((caloriesBurned*100.0)/100.0) + " calories burned");
 
         final Button finishButton = findViewById(R.id.completeExercise);
 
@@ -72,8 +74,20 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                exercise.setFinished(true);
-                finishedView.setText("Finished");
+                try {
+                    if (calendar.getTime().getTime() >= (fmt.parse(dateString).getTime())) {
+                        exercise.setFinished(true);
+                        finishedView.setText("Finished");
+                    }else{
+                        //Kopioitu Emilin koodista
+                        String toastMessage = "Cannot finish exercise in the future";
+                        Toast message = Toast.makeText(ExerciseInfoActivity.this, toastMessage, Toast.LENGTH_SHORT);
+                        message.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP, 0, 150);
+                        message.show();
+                    }
+                }catch(ParseException e){
+                    e.printStackTrace();
+                }
             }
         });
     }

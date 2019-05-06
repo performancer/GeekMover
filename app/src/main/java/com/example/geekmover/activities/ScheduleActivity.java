@@ -48,7 +48,7 @@ public class ScheduleActivity extends AppCompatActivity {
         calendarView.setMinDate(Calendar.getInstance().getTime().getTime());
         calendarView.setMaxDate(days.get(days.size()-1).getDate().getTime());
         final TextView dateText = findViewById(R.id.dateText);
-        final String text = "Day has been planned\n" + calendar.getTime().toString();
+        final String text = "Day has been planned\n";
         dateText.setText(text);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -58,7 +58,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 for (final Day day : days) {
                     if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
-                        dateText.setText("Day has been planned\n" + day.getDate().toString());
+                        dateText.setText(text);
                         setupListView(day);
                         break;
                     }else{
