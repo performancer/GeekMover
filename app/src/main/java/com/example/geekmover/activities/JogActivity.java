@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.geekmover.JogProgram;
-import com.example.geekmover.MapClass;
+import com.example.geekmover.Map;
 import com.example.geekmover.data.Jog;
 import com.example.geekmover.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,7 +17,7 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private JogProgram jogProgram;
 
-    private MapClass map = new MapClass();
+    private Map map = new Map();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

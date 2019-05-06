@@ -9,14 +9,14 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.List;
 
-public class MapClass {
+public class Map {
 
     private GoogleMap map;
 
     private Polyline polyline;
     private PolylineOptions polylineOptions;
 
-    public MapClass() {
+    public Map() {
         this.polyline = null;
         this.polylineOptions = null;
     }

@@ -80,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
             TextView todayText = findViewById(R.id.todayView);
             todayText.setText(text);
         }
+
+
+        if(data.getHeight() == 0 || data.getWeight() == 0){
+            Intent intent = new Intent(this, UserInputActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     private void requestLocationPermission() {

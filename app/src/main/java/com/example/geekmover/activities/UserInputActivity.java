@@ -23,7 +23,6 @@ public class UserInputActivity extends AppCompatActivity {
     private EditText inputHeight;
     private EditText inputWeight;
     private EditText inputLevel;
-    private EditText inputPhase;
 
     private TextView textViewBMI;
 
@@ -65,7 +64,7 @@ public class UserInputActivity extends AppCompatActivity {
 
         try {
             int weightInput = Integer.parseInt(inputWeight.getText().toString());
-            if (weightInput >= 20 || weightInput <= 400 ){
+            if (weightInput >= 20 && weightInput <= 400 ){
                 userData.setWeight(weightInput);
             } else {
                 noErrors = false;
