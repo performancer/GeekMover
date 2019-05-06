@@ -20,10 +20,16 @@ public class Schedule implements Serializable {
 
     private ArrayList<Day> days;
 
+    /**
+     * Schedule manages days and plans exercises for the user.
+     */
     public Schedule(){
         days = new ArrayList<>();
     }
 
+    /**
+     * Plans days for at least 30 days ahead with the current level
+     */
     public void plan() {
 
         UserData data = UserData.getInstance();
@@ -33,15 +39,16 @@ public class Schedule implements Serializable {
         int daysPlanned = days.size() - todayIndex;
 
         for (int i = 0; i < 30 - daysPlanned; i++) {
-            int level = data.getLevel();
-
-            planDay(level);
-
-            if(level < 20 && days.size() % data.getPhase() == 0)
-                data.setLevel(level + 1);
+            planDay(data.getLevel());
         }
     }
 
+    /**
+     * Plans a day with the given level and adds it to the list. Every day contains currently
+     * three different kind of exercises unless if it is a rest day.
+     *
+     * @param level level that is used to estimate the amount of exercise for this day
+     */
     private void planDay(int level) {
 
         Log.d("Debug", "Planning a day...");
@@ -66,10 +73,23 @@ public class Schedule implements Serializable {
         days.add(new Day(date, exercises));
     }
 
+    /**
+     * Returns an ArrayList of the planned days that the schedule holds.
+     *
+     * @return The planned days.
+     * @see ArrayList<Day>
+     */
     public ArrayList<Day> getDays() {
         return days;
     }
 
+    /**
+     * Gets the date of the day after the last one on the planned day list. If the list is empty
+     * returns current date.
+     *
+     * @return Date for a new day
+     * @see Date
+     */
     private Date getNextDate() {
         if (days != null && days.size() > 0)
             return new Date(days.get(days.size() - 1).getDate().getTime() + millisecondsInDay);
@@ -77,9 +97,21 @@ public class Schedule implements Serializable {
             return Calendar.getInstance().getTime();
     }
 
+    /**
+     * Checks if there are days planned.
+     *
+     * @return true if there are days planned, otherwise false
+     */
     public boolean hasPlan(){
         return days != null && days.size() > 0;
     }
+
+    /**
+     * Returns the day that matches the current date.
+     *
+     * @return today
+     * @see Day
+     */
 
     public Day getToday() {
 
@@ -93,6 +125,9 @@ public class Schedule implements Serializable {
         return null;
     }
 
+    /**
+     * Removes current plans and plans the schedule again.
+     */
     public void replan(){
         days = new ArrayList<>();
         plan();
