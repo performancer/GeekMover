@@ -8,13 +8,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.example.geekmover.activities.JogActivity;
 import com.example.geekmover.data.Jog;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +31,21 @@ public class JogProgram implements LocationListener {
         coordinatesArrayList = new ArrayList<>();
     }
 
+    /**
+     * Adds coordinates to the coordinatesArrayList of the instance.
+     *
+     * @param coordinates the coordinates that are to be added to the list
+     */
     void addCoordinate(Coordinates coordinates){
         this.coordinatesArrayList.add(coordinates);
     }
 
+    /**
+     * Returns the last index of the coordinatesArrayList if possible. Otherwise returns null.
+     *
+     * @return Coordinates that are the last in the coordinatesArrayList
+     * @see Coordinates
+     */
     public Coordinates getLatestCoordinates(){
         if(coordinatesArrayList.size() > 0)
             return coordinatesArrayList.get(coordinatesArrayList.size() - 1);
@@ -45,10 +53,21 @@ public class JogProgram implements LocationListener {
         return null;
     }
 
+    /**
+     * Returns the complete ArrayList of coordinates that are collected this far.
+     *
+     * @return ArrayList of Coordinates
+     * @see ArrayList<Coordinates>
+     */
     public ArrayList<Coordinates> getCoordinatesArrayList() {
         return coordinatesArrayList;
     }
 
+    /**
+     * Calculates the total distance between all coordinates and returns the total jogged distance
+     *
+     * @return total distance (meters)
+     */
     public int getTotalDistance() {
 
         double distance = 0;
@@ -63,12 +82,14 @@ public class JogProgram implements LocationListener {
                 distance += last.getDistanceTo(current);
             }
         }
-
-        Log.d("debug", " " + distance);
-
         return (int) distance;
     }
 
+    /**
+     * Gets the goal distance of the jog that is supposed to be completed as an integer.
+     *
+     * @return goal distance (meters)
+     */
     public int getGoal(){
         if(jog != null)
             return jog.getAmount();
@@ -76,6 +97,12 @@ public class JogProgram implements LocationListener {
         return 0;
     }
 
+    /**
+     * Calculates the average speed between all coordinates by comparing their distance and time.
+     * If there are not enough coordinates listed, returns 0.
+     *
+     * @return average speed (meters per second)
+     */
     public double getAverageSpeed() {
         int size = coordinatesArrayList.size();
 
@@ -91,6 +118,13 @@ public class JogProgram implements LocationListener {
 
         return 0;
     }
+
+    /**
+     * Calculates the current speed between this and coordinates before this. If there are not
+     * enough coordinates listed, returns 0.
+     *
+     * @return current speed (meters per second)
+     */
 
     public double getCurrentSpeed() {
         int size = coordinatesArrayList.size();
@@ -108,10 +142,21 @@ public class JogProgram implements LocationListener {
         return 0;
     }
 
+    /**
+     * Compares if the goal distance is reached and thus if the jog program is completed.
+     *
+     * @return is the jog program finished
+     */
     public boolean isFinished(){
         return getTotalDistance() >= getGoal();
     }
 
+    /**
+     * Calculates the estimated calories burned with this jog program by comparing user data,
+     * distance and speed between coordinates. The result is rounded.
+     *
+     * @return integer of the calories that are burned
+     */
     public int getCaloriesBurned() {
         UserData data = UserData.getInstance();
 
@@ -133,6 +178,12 @@ public class JogProgram implements LocationListener {
         return (int) Math.round(calories);
     }
 
+    /**
+     * Starts the jog program, checks the permission for location and assigns a LocationManager. For
+     * map drawing.
+     *
+     * @return if permission is granted returns true otherwise false
+     */
     public boolean start() {
         if(locationManager == null)
             locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
@@ -148,11 +199,21 @@ public class JogProgram implements LocationListener {
         return false;
     }
 
+    /**
+     * Closes the LocationManager if it is assigned.
+     */
     public void end(){
         if(locationManager != null)
             locationManager.removeUpdates(this);
     }
 
+    /**
+     * When location changes and the change is greater than 10m, the coordinates are assigned to the
+     * coordinatesArrayList with a timestamp. If the jog program is completed after assigning the new
+     * coordinates, we change pass it on to the jog-object.
+     *
+     * @param location current location
+     */
     @Override
     public void onLocationChanged(Location location) {
 
@@ -197,6 +258,12 @@ public class JogProgram implements LocationListener {
 
     }
 
+    /**
+     * Gets a list of LatLng from the coordinates in coordinatesArrayList.
+     *
+     * @return list of LatLng
+     * @see List<LatLng>
+     */
     public List<LatLng> getLatLngList(){
         List<LatLng> latLngList = new ArrayList<>();
 

@@ -2,45 +2,43 @@ package com.example.geekmover.data;
 
 import com.example.geekmover.UserData;
 
-import java.io.Serializable;
+public class Jog extends Exercise {
 
-public class Jog implements IExercise, Serializable {
-
-    private String name;
-    private boolean finished;
-    private int amount;
-
-    public Jog(int amount)
-    {
-        this.amount = amount;
+    /**
+     * Extends the Exercise class which is used to store data. This class is specifically used for
+     * jog exercises, which have different way of calculating calorie burn and cannot be finished
+     * without a jog program.
+     * @param amount Distance the user is supposed to jog (in meters)
+     */
+    public Jog(int amount) {
+        super("jog", amount);
     }
 
-
-    @Override
-    public String getName(){
-        return null;
-    }
-    @Override
-    public int getAmount(){return amount;}
-
+    /**
+     * Gets the amount of calories that are estimated to be burned with this jog. User's
+     * BMI affects the estimated burn.
+     * @return double value of calories burned
+     */
     @Override
     public double getCaloriesBurned(){
         UserData data = UserData.getInstance();
-        return 0;
+
+        //the following might not be highly accurate
+
+        double speed = 4; //what is usually our average speed? should we store data for this?
+        double seconds = getAmount() / speed;
+        double factor = (speed * (0.7 * speed + 56)) / 360;
+        double bmi = 1.0 + (data.getBMI() - 20) / 20;
+
+        return factor * bmi * seconds;
     }
 
-    @Override
-    public boolean getFinished(){
-        return finished;
-    }
-
-    @Override
-    public void setFinished(boolean finished){
-        this.finished = finished;
-    }
-
+    /**
+     * Used to get the essential data from the instance to a string
+     * @return string with the exercise name and the goal distance
+     */
     @Override
     public String toString() {
-        return "jog " + amount + "m";
+        return getName() + " " + getAmount() + "m";
     }
 }
