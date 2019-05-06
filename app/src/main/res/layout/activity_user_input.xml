@@ -11,11 +11,10 @@
         android:id="@+id/heightTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="8dp"
         android:text="Height"
         android:textSize="36sp"
         app:layout_constraintEnd_toStartOf="@+id/inputHeight"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,32 +25,33 @@
         android:layout_marginTop="50dp"
         android:text="Weight"
         android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/inputWeight"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/heightTextView"
+        app:layout_constraintStart_toStartOf="@+id/heightTextView"
         app:layout_constraintTop_toBottomOf="@+id/heightTextView" />
 
     <TextView
         android:id="@+id/showBMITextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="0"
         android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bmiTextView"
+        app:layout_constraintEnd_toStartOf="@+id/kgView"
+        app:layout_constraintStart_toStartOf="@+id/inputWeight"
         app:layout_constraintTop_toTopOf="@+id/bmiTextView" />
 
     <EditText
         android:id="@+id/inputWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:hint="Enter Weight"
         app:layout_constraintBottom_toBottomOf="@+id/weightTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/weightTextView"
+        app:layout_constraintEnd_toStartOf="@+id/cmTextView"
+        app:layout_constraintStart_toStartOf="@+id/inputHeight"
         app:layout_constraintTop_toTopOf="@+id/weightTextView" />
 
     <EditText
@@ -62,7 +62,6 @@
         android:hint="Enter Height"
         app:layout_constraintBottom_toBottomOf="@+id/heightTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/heightTextView"
         app:layout_constraintTop_toTopOf="@+id/heightTextView" />
 
@@ -73,38 +72,25 @@
         android:gravity="center"
         android:hint="Enter Level "
         app:layout_constraintBottom_toBottomOf="@+id/levelTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/levelTextView"
+        app:layout_constraintEnd_toEndOf="@+id/showBMITextView"
+        app:layout_constraintStart_toStartOf="@+id/showBMITextView"
         app:layout_constraintTop_toTopOf="@+id/levelTextView" />
-
-    <EditText
-        android:id="@+id/inputPhase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="Enter Phase "
-        app:layout_constraintBottom_toBottomOf="@+id/phaseTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/phaseTextView"
-        app:layout_constraintTop_toTopOf="@+id/phaseTextView" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="0dp"
         android:layout_height="75dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="50dp"
         android:onClick="onSaveClick"
         android:text="Save"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phaseTextView" />
+        app:layout_constraintEnd_toEndOf="@+id/inputLevel"
+        app:layout_constraintStart_toStartOf="@+id/levelTextView"
+        app:layout_constraintTop_toBottomOf="@+id/levelTextView" />
 
     <TextView
         android:id="@+id/bmiTextView"
@@ -113,9 +99,8 @@
         android:layout_marginTop="50dp"
         android:text="BMI"
         android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/showBMITextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/weightTextView"
+        app:layout_constraintStart_toStartOf="@+id/weightTextView"
         app:layout_constraintTop_toBottomOf="@+id/weightTextView" />
 
     <TextView
@@ -125,22 +110,9 @@
         android:layout_marginTop="50dp"
         android:text="Level"
         android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/inputLevel"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bmiTextView"
+        app:layout_constraintStart_toStartOf="@+id/bmiTextView"
         app:layout_constraintTop_toBottomOf="@+id/bmiTextView" />
-
-    <TextView
-        android:id="@+id/phaseTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Phase"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/inputPhase"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/levelTextView" />
 
     <TextView
         android:id="@+id/cmTextView"

@@ -38,18 +38,15 @@ public class UserInputActivity extends AppCompatActivity {
         inputWeight = findViewById(R.id.inputWeight);
         textViewBMI = findViewById(R.id.showBMITextView);
         inputLevel = findViewById(R.id.inputLevel);
-        inputPhase = findViewById(R.id.inputPhase);
 
         inputHeight.setText(Integer.toString(userData.getHeight()));
         inputWeight.setText(Integer.toString(userData.getWeight()));
         textViewBMI.setText(Double.toString(userData.getBMI()));
         inputLevel.setText(Integer.toString(userData.getLevel()));
-        inputPhase.setText(Integer.toString(userData.getPhase()));
     }
 
     public void onSaveClick(View view){
         int levelBeforeSave = userData.getLevel();
-        int phaseBeforeSave = userData.getPhase();
         boolean noErrors = true;
 
         try {
@@ -95,21 +92,6 @@ public class UserInputActivity extends AppCompatActivity {
             noErrors = false;
         }
 
-        try{
-            userData.setPhase( Integer.parseInt(inputPhase.getText().toString()) );
-            if(userData.getPhase() > 20){
-                userData.setPhase(20);
-                inputPhase.setText("" + 20);
-            } else if (userData.getPhase() <= 0){
-                userData.setPhase(1);
-                inputPhase.setText("" + 1);
-            }
-
-        } catch (NumberFormatException e) {
-            inputPhase.setText("");
-            noErrors = false;
-        }
-
         double bmi = userData.getBMI();
 
         textViewBMI.setText("" + bmi );
@@ -120,7 +102,7 @@ public class UserInputActivity extends AppCompatActivity {
 
             saveData();
 
-            if(levelBeforeSave != userData.getLevel() || phaseBeforeSave != userData.getPhase()){
+            if(levelBeforeSave != userData.getLevel()){
                 Schedule schedule = UserData.getInstance().getSchedule();
                 schedule.replan();
             }
