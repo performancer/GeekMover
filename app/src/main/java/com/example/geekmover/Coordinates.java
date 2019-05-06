@@ -12,6 +12,11 @@ public class Coordinates {
     private double longitude;
     private Date timestamp;
 
+    /**
+     * 
+     * @param latitude
+     * @param longitude
+     */
     public Coordinates(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
