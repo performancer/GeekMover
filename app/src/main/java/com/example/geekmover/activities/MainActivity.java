@@ -112,25 +112,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
-
-    }
-
-    @Override
     protected void onResume(){
         super.onResume();
 
-        loadData();
-
         TextView view = findViewById(R.id.textView);
         view.setText("You are currently at level " + UserData.getInstance().getLevel());
-
     }
 
     @Override
     protected void onStop(){
         super.onStop();
+        UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
     public void onCalendarClick(View view){
@@ -142,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, UserInputActivity.class);
         startActivity(intent);
     }
-
 
     public void OnClick(View view){
 
@@ -161,13 +152,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-    private void loadData(){
-        UserData data = UserData.getInstance();
-
-        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        data.LoadData(pref, getApplicationContext());
-    }
-
 }

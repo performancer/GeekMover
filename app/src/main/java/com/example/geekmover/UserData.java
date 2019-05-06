@@ -2,13 +2,11 @@ package com.example.geekmover;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 
 /**
  * UserData is used to store data to a singleton which can be called at anytime in the application.
@@ -23,7 +21,6 @@ public class UserData {
     private Schedule schedule;
     private final String path = "schedule";
     private int level, phase, height, weight;
-
 
     /**
      * Constructor for UserData
