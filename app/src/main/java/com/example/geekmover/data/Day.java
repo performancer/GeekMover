@@ -7,6 +7,12 @@ public class Day implements Serializable {
     private Date date;
     private IExercise[] exercises;
 
+    /**
+     * Day is used to store exercises in and to have a date value of the specific date it
+     * represents. Serializable.
+     * @param date date for this day
+     * @param exercises array of exercises for this day
+     */
     public Day(Date date, IExercise[] exercises) {
         this.date = date;
         this.exercises = exercises;
