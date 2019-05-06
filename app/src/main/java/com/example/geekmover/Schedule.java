@@ -92,4 +92,9 @@ public class Schedule implements Serializable {
 
         return null;
     }
+
+    public void replan(){
+        days = new ArrayList<>();
+        plan();
+    }
 }
