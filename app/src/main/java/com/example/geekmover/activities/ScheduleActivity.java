@@ -76,6 +76,12 @@ public class ScheduleActivity extends AppCompatActivity {
         setupListView(day);
     }
 
+    /**
+     * Sets up the ListView which shows all the exercises for the day.
+     * Creates an ArrayAdapter which
+     *
+     * @param day Needs a Day object to display Exercises.
+     */
     private void setupListView(final Day day) {
         ListView lv = findViewById(R.id.listView);
         try{

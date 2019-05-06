@@ -23,6 +23,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Displays specific info on an exercise, gets the exercise from ScheduleActivity with an intent.
+ */
 public class ExerciseInfoActivity extends AppCompatActivity {
 
     IExercise exercise = null;
@@ -64,7 +67,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         }
 
         nameView.setText(name);
-        caloriesView.setText(Math.round((caloriesBurned*100.0)/100.0) + " calories burned");
+        caloriesView.setText(Math.round((caloriesBurned*100.0)/100.0) + " kcal");
 
         final Button finishButton = findViewById(R.id.completeExercise);
 
