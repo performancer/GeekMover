@@ -7,16 +7,17 @@ public class Day implements Serializable {
     private Date date;
     private IExercise[] exercises;
 
-    public Day(Date date){
-        this.date = date;
-        this.exercises = new IExercise[0];
-    }
-
     public Day(Date date, IExercise[] exercises) {
         this.date = date;
         this.exercises = exercises;
     }
 
+    /**
+     * Gets the total calories that are supposed to be burned during this day. Sums the estimated
+     * calorie burn of each exercise.
+     *
+     * @return the goal of calories burned (kcal)
+     */
     public double getTotalCaloriesBurned() {
 
         int calories = 0;
@@ -28,6 +29,11 @@ public class Day implements Serializable {
         return calories;
     }
 
+    /**
+     * Sums the calories burned in every finished exercise of the day.
+     *
+     * @return current calories burned summed (kcal)
+     */
     public double getCurrentCaloriesBurned() {
 
         int calories = 0;
@@ -40,14 +46,31 @@ public class Day implements Serializable {
         return calories;
     }
 
+    /**
+     * Gets the array of IExercise interfaces that all the exercises implement. This can be used to
+     * get the exercises of the day.
+     *
+     * @return exercises as an interface
+     * @see IExercise
+     */
     public IExercise[] getExercises() {
         return exercises;
     }
 
+    /**
+     * Gets the date of this day.
+     * @return date
+     * @see Date
+     */
     public Date getDate(){
         return date;
     }
 
+    /**
+     * If the day has a jog exercise, this method returns it. Otherwise it will return null.
+     * @return Jog for this day
+     * @see Jog
+     */
     public Jog getJog(){
 
         for(IExercise exercise : exercises)
