@@ -16,7 +16,7 @@ public class Coordinates {
     private Date timestamp;
 
     /**
-     *  Constructor for coordinates.
+     *  Constructor for coordinates. Creates a timestamp
      * @param latitude
      * @param longitude
      */
