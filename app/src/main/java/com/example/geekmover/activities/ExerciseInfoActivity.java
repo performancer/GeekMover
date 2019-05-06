@@ -1,5 +1,7 @@
 package com.example.geekmover.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -25,6 +27,7 @@ import java.util.Locale;
 
 /**
  * Displays specific info on an exercise, gets the exercise from ScheduleActivity with an intent.
+ * @author Lauri
  */
 public class ExerciseInfoActivity extends AppCompatActivity {
 
@@ -41,6 +44,10 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         final String dateString = getIntent().getStringExtra(ScheduleActivity.DATE);
         int EIndex = getIntent().getIntExtra(ScheduleActivity.EINDEX, 0);
 
+        final TextView nameView = findViewById(R.id.exerciseName);
+        final TextView caloriesView = findViewById(R.id.exerciseCalories);
+        final TextView finishedView = findViewById(R.id.exerciseFinished);
+
         ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
 
         String name = "Could not find Name";
@@ -56,9 +63,6 @@ public class ExerciseInfoActivity extends AppCompatActivity {
                 break;
             }
         }
-        final TextView nameView = findViewById(R.id.exerciseName);
-        final TextView caloriesView = findViewById(R.id.exerciseCalories);
-        final TextView finishedView = findViewById(R.id.exerciseFinished);
 
         if(finished){
             finishedView.setText("Finished");
@@ -70,28 +74,48 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         caloriesView.setText(Math.round((caloriesBurned*100.0)/100.0) + " kcal");
 
         final Button finishButton = findViewById(R.id.completeExercise);
-
+        /**
+         * if Exercise is a Jog or exercise is finished, hide button
+         */
         if(finished || exercise.getClass() == Jog.class){
             finishButton.setVisibility(View.INVISIBLE);
         }
+
         finishButton.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view){
-                try {
-                    if (calendar.getTime().getTime() >= (fmt.parse(dateString).getTime())) {
-                        exercise.setFinished(true);
-                        finishedView.setText("Finished");
-                    }else{
-                        //Kopioitu Emilin koodista
-                        String toastMessage = "Cannot finish exercise in the future";
-                        Toast message = Toast.makeText(ExerciseInfoActivity.this, toastMessage, Toast.LENGTH_SHORT);
-                        message.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP, 0, 150);
-                        message.show();
-                    }
-                }catch(ParseException e){
-                    e.printStackTrace();
-                }
+                FinishExercise(calendar, fmt, dateString, finishedView);
             }
         });
+    }
+    /**
+     * Finishes Exercise if able, saves data afterwards
+     * Prevents click if viewing an exercise in the future or exercise already finished.
+     * Displays a toast if button cannot ne used.
+     * @throws ParseException
+     * @param calendar
+     * @param fmt
+     * @param dateString
+     * @param finishedView
+     */
+    private void FinishExercise(Calendar calendar, SimpleDateFormat fmt, String dateString, TextView finishedView) {
+        try {
+            if (calendar.getTime().getTime() >= (fmt.parse(dateString).getTime())) {
+                exercise.setFinished(true);
+                finishedView.setText("Finished");
+
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                UserData.getInstance().SaveData(pref, getApplicationContext());
+            }else{
+                //Kopioitu Emilin koodista
+                String toastMessage = "Cannot finish exercise in the future";
+                Toast message = Toast.makeText(ExerciseInfoActivity.this, toastMessage, Toast.LENGTH_SHORT);
+                message.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP, 0, 150);
+                message.show();
+            }
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
     }
 }

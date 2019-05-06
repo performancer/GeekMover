@@ -26,10 +26,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Has a CalendarView and a ListView.
+ * CalendarView shows a calendar with non-planned days grayed out(non clickable).
+ * ListView displays Exercises for the chosen day.
+ * @author Lauri
+ */
 public class ScheduleActivity extends AppCompatActivity {
 
     final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
-
 
     public static final String DATE = "DATE";
     public static final String EINDEX = "EINDEX";
