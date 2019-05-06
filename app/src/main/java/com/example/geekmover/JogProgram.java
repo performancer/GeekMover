@@ -23,6 +23,15 @@ public class JogProgram implements LocationListener {
     private LocationManager locationManager;
     private ArrayList<Coordinates> coordinatesArrayList;
 
+    /**
+     * JogProgram holds data about user's jogging and keeps a list of locations that the user has
+     * been at. JogProgram holds methods for calculating various things about the current jog.
+     * Implements LocationListener to receive GPS-coordinates, which it assigns to a ArrayList of
+     * Coordinates.
+     *
+     * @param activity JogActivity that the jog program informs about location changes
+     * @param jog Reference to the exercise that the user is completing.
+     */
     public JogProgram(JogActivity activity, Jog jog)
     {
         this.activity = activity;
@@ -162,6 +171,8 @@ public class JogProgram implements LocationListener {
 
         double calories = 0;
 
+        //this might or might not be very accurate
+
         for (int i = 1; i < coordinatesArrayList.size(); i++) {
 
             Coordinates last = coordinatesArrayList.get(i - 1);
@@ -188,6 +199,8 @@ public class JogProgram implements LocationListener {
         if(locationManager == null)
             locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
+        //do we need permission checks here for safety?
+
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -196,6 +209,7 @@ public class JogProgram implements LocationListener {
             return true;
         }
 
+        //maybe send a toast message about not having a permission?
         return false;
     }
 
@@ -218,7 +232,7 @@ public class JogProgram implements LocationListener {
     public void onLocationChanged(Location location) {
 
         if(activity == null){
-            end();
+            end(); // should not run without JogActivity
             return;
         }
 
