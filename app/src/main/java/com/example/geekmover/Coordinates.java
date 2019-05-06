@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Used to store latitude, longitude and the timestamp when the coordinate was created (Useful when calculating speed for example)
+ */
 public class Coordinates {
 
     private double latitude;
@@ -13,7 +16,7 @@ public class Coordinates {
     private Date timestamp;
 
     /**
-     * 
+     *  Constructor for coordinates.
      * @param latitude
      * @param longitude
      */
@@ -23,6 +26,11 @@ public class Coordinates {
         this.timestamp = Calendar.getInstance().getTime();
     }
 
+    /**
+     * A method for calculating the distance in meters between two Coordinates. Assumes the world is a perfect ball.
+     * @param to The other coordinate
+     * @return Distance between two coordinates
+     */
     public double getDistanceTo(Coordinates to){
         double radius = 6371000;
         double dLat = Math.toRadians(to.getLatitude() - this.getLatitude());
@@ -38,22 +46,37 @@ public class Coordinates {
         return radius * c;
     }
 
+    /**
+     * a getter method for latitude
+     * @return latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * a getter method for longitude
+     * @return longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * a getter method for timestamp
+     * @return timestamp
+     */
     public Date getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * combines latitude and longitude into LatLng object
+     * @return coordinates' latitude and longitude in LatLng form
+     */
     public LatLng getLatLng(){
         LatLng latLng = new LatLng (latitude,longitude);
 
         return latLng;
     }
-
 }
