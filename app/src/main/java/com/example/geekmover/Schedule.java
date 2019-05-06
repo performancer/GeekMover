@@ -112,7 +112,6 @@ public class Schedule implements Serializable {
      * @return today
      * @see Day
      */
-
     public Day getToday() {
 
         Date now = Calendar.getInstance().getTime();
