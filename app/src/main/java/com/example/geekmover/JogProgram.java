@@ -221,7 +221,7 @@ public class JogProgram extends LocationService implements LocationListener {
     }
 
     /**
-     * When location changes and the change is greater than 10m, the coordinates are assigned to the
+     * When location changes and the change is greater than 20m, the coordinates are assigned to the
      * coordinatesArrayList with a timestamp. If the jog program is completed after assigning the new
      * coordinates, we change pass it on to the jog-object.
      *
@@ -239,7 +239,7 @@ public class JogProgram extends LocationService implements LocationListener {
         if(last != null) {
             double distance = last.getDistanceTo(current);
 
-            if (distance < 10)
+            if (distance < 20)
                 return;
         }
 
