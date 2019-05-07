@@ -6,25 +6,20 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
-import com.example.geekmover.Coordinates;
 import com.example.geekmover.JogProgram;
 import com.example.geekmover.LocationService;
 import com.example.geekmover.Map;
+import com.example.geekmover.UserData;
 import com.example.geekmover.data.Jog;
 import com.example.geekmover.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    public static final String CHANNEL_ID = "mapServiceChannel";
-    public static final String JOG_PROGRAM = "JOG_PROGRAM";
     private JogProgram jogProgram;
     private Map map = new Map();
 
@@ -35,34 +30,37 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
 
         createNotificationChannel();
 
-        Serializable serializable = getIntent().getSerializableExtra("Jog");
-        if(LocationService.getJogProgram() != null) {
-            jogProgram = LocationService.getJogProgram();
-            stopService();
-        }else {
-            if (serializable instanceof Jog) {
-                jogProgram = new JogProgram(this, (Jog) serializable);
-                jogProgram.start();
-            } else {
-                finish();
-            }
+        UserData data = UserData.getInstance();
+        Jog jog = data.getSchedule().getToday().getJog();
+
+        if (jog == null) {
+            finish();
+            return;
         }
-        /**
-         * Gets a handle to the map fragment by calling FragmentManager.findFragmentById().
-         * Then use getMapAsync() to register for the map callback:
-         *
-         * Source: https://developers.google.com/maps/documentation/android-sdk/map-with-marker
-         */
+
+        jogProgram = new JogProgram(this, jog);
+        jogProgram.start();
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        stopService();
+
+        if(jogProgram != null)
+            jogProgram.end();
+    }
+
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Map Service Channel",
+                    getString(R.string.channel_id),
+                    getString(R.string.map_service_channel),
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
@@ -73,7 +71,6 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
 
     public void startService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
-        //serviceIntent.putExtra(JOG_PROGRAM, jogProgram);
         startService(serviceIntent);
     }
 
@@ -86,14 +83,14 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         String text;
 
         if(jogProgram.isFinished()) {
-            text = "Finished";
+            text = getString(R.string.finished);
         }
         else {
             //meters to kilometers rounded to one decimal
             double distance = Math.round(jogProgram.getTotalDistance() / 100.0) / 10.0;
             double goal = Math.round(jogProgram.getGoal() / 100.0) / 10.0;
 
-            text = distance + "/" + goal + "km";
+            text = getString(R.string.jog_distance, distance, goal);
         }
 
         TextView goalView = findViewById(R.id.goalView);
@@ -103,15 +100,15 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         int current = (int)jogProgram.getCurrentSpeed();
 
         TextView averageSpeedView = findViewById(R.id.averageSpeedView);
-        averageSpeedView.setText("Avg. " + average + " m/s");
+        averageSpeedView.setText(getString(R.string.average_speed, average));
 
         TextView currentSpeedView = findViewById(R.id.currentSpeedView);
-        currentSpeedView.setText("Cur. " + current + " m/s");
+        currentSpeedView.setText(getString(R.string.current_speed, current));
 
         int calories = jogProgram.getCaloriesBurned();
 
         TextView caloriesView = findViewById(R.id.caloriesView);
-        caloriesView.setText(calories + " kcal");
+        caloriesView.setText(getString(R.string.calories, calories));
 
         if(map.getPolyline() == null){
             map.createStartMarker(jogProgram.getLatestCoordinates());

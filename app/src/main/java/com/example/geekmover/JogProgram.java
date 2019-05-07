@@ -13,7 +13,6 @@ import com.example.geekmover.activities.JogActivity;
 import com.example.geekmover.data.Jog;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -222,7 +221,7 @@ public class JogProgram extends LocationService implements LocationListener {
     }
 
     /**
-     * When location changes and the change is greater than 10m, the coordinates are assigned to the
+     * When location changes and the change is greater than 20m, the coordinates are assigned to the
      * coordinatesArrayList with a timestamp. If the jog program is completed after assigning the new
      * coordinates, we change pass it on to the jog-object.
      *
@@ -230,14 +229,6 @@ public class JogProgram extends LocationService implements LocationListener {
      */
     @Override
     public void onLocationChanged(Location location) {
-
-        if(isFinished()){
-            UserData.getInstance().getSchedule().getToday().getJog().setFinished(true);
-        }
-        /*if(activity == null){
-            end(); // should not run without JogActivity
-            return;
-        }*/
 
         double latitude = (location.getLatitude());
         double longitude =  (location.getLongitude());
@@ -248,7 +239,7 @@ public class JogProgram extends LocationService implements LocationListener {
         if(last != null) {
             double distance = last.getDistanceTo(current);
 
-            if (distance < 10)
+            if (distance < 20)
                 return;
         }
 
@@ -256,6 +247,7 @@ public class JogProgram extends LocationService implements LocationListener {
 
         if(isFinished())
             jog.setFinished(true);
+
         if(activity != null) {
             activity.Update();
         }

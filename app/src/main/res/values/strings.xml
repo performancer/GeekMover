@@ -17,6 +17,14 @@
     <string name="one_exercise">There is one exercise for today</string>
     <string name="no_exercises">Rest for today :)</string>
 
+    <string name="jog_program">JOG_PROGRAM</string>
+    <string name="channel_id">mapServiceChannel</string>
+    <string name="average_speed">Avg. %1$d m/s</string>
+    <string name="current_speed">Cur. %1$d m/s</string>
+    <string name="jog_distance">%1$.1f / %2$.1f km</string>
+    <string name="calories">%1$d kcal</string>
+    <string name="map_service_channel">Map Service Channel</string>
+
     <string name="incorrect_input">Incorrect Input</string>
     <string name="data_saved">Data Saved</string>
     <string name="height">Height</string>

@@ -42,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             Toast.makeText(MainActivity.this, R.string.already_granted, Toast.LENGTH_SHORT);
-        }else{
+        else
             requestLocationPermission();
-        }
 
         UserData data = UserData.getInstance();
 
@@ -80,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
             TextView view = findViewById(R.id.textView);
             view.setText(getString(R.string.current_level,data.getLevel()));
 
+            Jog jog = day.getJog();
+
             Button button = findViewById(R.id.button);
-            button.setText(day.getJog() != null ? R.string.start_jog : R.string.no_jog);
+            button.setText((jog != null && !jog.getFinished()) ? R.string.start_jog : R.string.no_jog);
 
             String text;
             int length = day.getExercises().length;
@@ -126,11 +127,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == 1){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 Toast.makeText(this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
-            }else{
+            else
                 Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -188,12 +188,8 @@ public class MainActivity extends AppCompatActivity {
             Day day = schedule.getToday();
             Jog jog = day.getJog();
 
-            if(jog != null)
-            {
-                Intent intent = new Intent(this, JogActivity.class);
-                intent.putExtra("Jog", jog);
-                startActivity(intent);
-            }
+            if(jog != null && !jog.getFinished())
+                startActivity(new Intent(this, JogActivity.class));
         }
     }
 }
