@@ -27,4 +27,6 @@
     <string name="enter_level">Enter Level</string>
     <string name="bmi">BMI</string>
     <string name="save">Save</string>
+
+    <string name="planned_day">Exercises for the day</string>
 </resources>

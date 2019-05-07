@@ -9,21 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.geekmover.R;
-import com.example.geekmover.Schedule;
 import com.example.geekmover.UserData;
 import com.example.geekmover.data.Day;
-import com.example.geekmover.data.Exercise;
-import com.example.geekmover.data.IExercise;
-import com.example.geekmover.data.Jog;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -52,9 +45,6 @@ public class ScheduleActivity extends AppCompatActivity {
         CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setMinDate(Calendar.getInstance().getTime().getTime());
         calendarView.setMaxDate(days.get(days.size()-1).getDate().getTime());
-        final TextView dateText = findViewById(R.id.dateText);
-        final String text = "Day has been planned\n";
-        dateText.setText(text);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -63,11 +53,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 for (final Day day : days) {
                     if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
-                        dateText.setText(text);
                         setupListView(day);
                         break;
-                    }else{
-                        dateText.setText("Day has not been planned");
                     }
                 }
             }
