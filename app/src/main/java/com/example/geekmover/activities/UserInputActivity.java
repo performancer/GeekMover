@@ -38,6 +38,8 @@ public class UserInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_input);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         loadData();
