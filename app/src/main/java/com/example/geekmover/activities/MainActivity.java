@@ -188,12 +188,8 @@ public class MainActivity extends AppCompatActivity {
             Day day = schedule.getToday();
             Jog jog = day.getJog();
 
-            if(jog != null)
-            {
-                Intent intent = new Intent(this, JogActivity.class);
-                intent.putExtra("Jog", jog);
-                startActivity(intent);
-            }
+            if(jog != null && !jog.getFinished())
+                startActivity(new Intent(this, JogActivity.class));
         }
     }
 }
