@@ -70,8 +70,17 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         TextView caloriesView = findViewById(R.id.caloriesView);
         caloriesView.setText(calories + " kcal");
 
+        if(map.getPolyline() == null){
+            map.createStartMarker(jogProgram.getLatestCoordinates());
+        } else if(map.getPolyline() != null && map.getLocationMarker() == null) {
+            map.createLocationMarker(jogProgram.getLatestCoordinates());
+        } else {
+            map.updateMarker(jogProgram.getLatestCoordinates());
+        }
+
         map.drawPolyLine(jogProgram.getLatLngList());
         map.updateCamera(jogProgram.getLatestCoordinates());
+
     }
 
     @Override

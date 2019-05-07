@@ -38,8 +38,18 @@ public class UserInputActivity extends AppCompatActivity {
         textViewBMI = findViewById(R.id.showBMITextView);
         inputLevel = findViewById(R.id.inputLevel);
 
-        inputHeight.setText(Integer.toString(userData.getHeight()));
-        inputWeight.setText(Integer.toString(userData.getWeight()));
+        if(userData.getHeight() == 0){
+            inputHeight.setText("");
+        } else {
+            inputHeight.setText(Integer.toString(userData.getHeight()));
+        }
+
+        if(userData.getWeight() == 0){
+            inputHeight.setText("");
+        } else {
+            inputWeight.setText(Integer.toString(userData.getWeight()));
+        }
+
         textViewBMI.setText(Double.toString(userData.getBMI()));
         inputLevel.setText(Integer.toString(userData.getLevel()));
     }
