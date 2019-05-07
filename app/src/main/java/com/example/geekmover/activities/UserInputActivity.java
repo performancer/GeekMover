@@ -132,8 +132,7 @@ public class UserInputActivity extends AppCompatActivity {
                 System.out.println("PRINT DATA" + userData.getLevel() + userData.getWeight() + userData.getHeight());
             }
 
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            finish();
         }
     }
 
