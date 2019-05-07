@@ -29,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
 
+    /**
+     * When the activity is created, updates the text views etc accordingly. Checks the needed
+     * permissions for the application and UserData singleton loads its data once the activity is
+     * created. If there is no schedule nor a plan, one shall be generated based on the user data.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +88,10 @@ public class MainActivity extends AppCompatActivity {
             todayText.setText(text);
         }
 
-
         if(data.getHeight() == 0 || data.getWeight() == 0){
             Intent intent = new Intent(this, UserInputActivity.class);
             startActivity(intent);
         }
-
     }
 
     private void requestLocationPermission() {
@@ -118,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * When the activity resumes, level text is updated in case it has been changed.
+     */
     @Override
     protected void onResume(){
         super.onResume();
@@ -126,23 +134,42 @@ public class MainActivity extends AppCompatActivity {
         view.setText("You are currently at level " + UserData.getInstance().getLevel());
     }
 
+    /**
+     * When the activity stops, UserData is saved.
+     */
     @Override
     protected void onStop(){
         super.onStop();
         UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
+    /**
+     * Starts ScheduleActivity when the button is clicked.
+     *
+     * @param view button that has been clicked
+     */
     public void onCalendarClick(View view){
         Intent intent = new Intent(this, ScheduleActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Starts UserInputActivity when the button is clicked
+     *
+     * @param view button that has been clicked
+     */
     public void onUserInputClick(View view){
         Intent intent = new Intent(this, UserInputActivity.class);
         startActivity(intent);
     }
 
-    public void OnClick(View view){
+    /**
+     * Starts JogActivity when the button is clicked. Gets the jog from schedule in UserData
+     * singleton and passes it to the activity as extra.
+     *
+     * @param view button that has been clicked
+     */
+    public void OnJogClick(View view){
 
         Schedule schedule = UserData.getInstance().getSchedule();
 
