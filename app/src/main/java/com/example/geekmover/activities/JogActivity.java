@@ -1,10 +1,17 @@
 package com.example.geekmover.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
+import com.example.geekmover.Coordinates;
 import com.example.geekmover.JogProgram;
+import com.example.geekmover.LocationService;
 import com.example.geekmover.Map;
 import com.example.geekmover.data.Jog;
 import com.example.geekmover.R;
@@ -12,11 +19,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    public static final String CHANNEL_ID = "mapServiceChannel";
+    public static final String JOG_PROGRAM = "JOG_PROGRAM";
     private JogProgram jogProgram;
-
     private Map map = new Map();
 
     @Override
@@ -24,19 +33,47 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jog);
 
+        createNotificationChannel();
+
         Serializable serializable = getIntent().getSerializableExtra("Jog");
-
-        if(serializable instanceof Jog) {
-            jogProgram = new JogProgram(this, (Jog)serializable);
-            jogProgram.start();
+        if(LocationService.getJogProgram() != null) {
+            jogProgram = LocationService.getJogProgram();
+            stopService();
+        }else {
+            if (serializable instanceof Jog) {
+                jogProgram = new JogProgram(this, (Jog) serializable);
+                jogProgram.start();
+            } else {
+                finish();
+            }
         }
-        else{
-            finish();
-        }
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Map Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
+
+    public void startService(){
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        //serviceIntent.putExtra(JOG_PROGRAM, jogProgram);
+        startService(serviceIntent);
+    }
+
+    public void stopService(){
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        stopService(serviceIntent);
     }
 
     public void Update() {
@@ -86,5 +123,11 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map.setMap(googleMap);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService();
     }
 }

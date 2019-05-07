@@ -1,6 +1,7 @@
 package com.example.geekmover;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Used to store latitude, longitude and the timestamp when the coordinate was created (Useful when calculating speed for example)
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
 
     private double latitude;
     private double longitude;
