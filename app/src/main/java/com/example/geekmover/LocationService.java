@@ -9,12 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.geekmover.activities.JogActivity;
-import com.example.geekmover.activities.MainActivity;
-
-import java.util.ArrayList;
 
 import static com.example.geekmover.activities.JogActivity.CHANNEL_ID;
-import static com.example.geekmover.activities.JogActivity.JOG_PROGRAM;
 
 public class LocationService extends Service {
 
