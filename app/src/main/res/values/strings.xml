@@ -9,6 +9,8 @@
     <string name="already_granted">You have already granted this permission.</string>
     <string name="start_jog">Start a Jog</string>
     <string name="no_jog">No Jog for Today</string>
+    <string name="user_data">User Data</string>
+    <string name="check_schedule">Check Schedule</string>
     <string name="current_level">You are currently at level %1$d</string>
     <string name="today">Today %1$s</string>
     <string name="many_exercises">There are %1$d exercises for today</string>
