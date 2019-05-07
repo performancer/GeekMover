@@ -133,10 +133,4 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         super.onStop();
         startService();
     }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        stopService();
-    }
 }
