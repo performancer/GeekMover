@@ -23,8 +23,6 @@ import java.util.ArrayList;
 
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    public static final String CHANNEL_ID = "mapServiceChannel";
-    public static final String JOG_PROGRAM = "JOG_PROGRAM";
     private JogProgram jogProgram;
     private Map map = new Map();
 
@@ -55,8 +53,8 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Map Service Channel",
+                    getString(R.string.channel_id),
+                    getString(R.string.map_service_channel),
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
@@ -80,14 +78,14 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         String text;
 
         if(jogProgram.isFinished()) {
-            text = "Finished";
+            text = getString(R.string.finished);
         }
         else {
             //meters to kilometers rounded to one decimal
             double distance = Math.round(jogProgram.getTotalDistance() / 100.0) / 10.0;
             double goal = Math.round(jogProgram.getGoal() / 100.0) / 10.0;
 
-            text = distance + "/" + goal + "km";
+            text = getString(R.string.jog_distance, distance, goal);
         }
 
         TextView goalView = findViewById(R.id.goalView);
@@ -97,15 +95,15 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         int current = (int)jogProgram.getCurrentSpeed();
 
         TextView averageSpeedView = findViewById(R.id.averageSpeedView);
-        averageSpeedView.setText("Avg. " + average + " m/s");
+        averageSpeedView.setText(getString(R.string.average_speed, average));
 
         TextView currentSpeedView = findViewById(R.id.currentSpeedView);
-        currentSpeedView.setText("Cur. " + current + " m/s");
+        currentSpeedView.setText(getString(R.string.current_speed, current));
 
         int calories = jogProgram.getCaloriesBurned();
 
         TextView caloriesView = findViewById(R.id.caloriesView);
-        caloriesView.setText(calories + " kcal");
+        caloriesView.setText(getString(R.string.calories, calories));
 
         if(map.getPolyline() == null){
             map.createStartMarker(jogProgram.getLatestCoordinates());
@@ -129,5 +127,11 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onStop() {
         super.onStop();
         startService();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        stopService();
     }
 }

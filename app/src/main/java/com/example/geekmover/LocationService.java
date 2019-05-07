@@ -9,12 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.geekmover.activities.JogActivity;
-import com.example.geekmover.activities.MainActivity;
-
-import java.util.ArrayList;
-
-import static com.example.geekmover.activities.JogActivity.CHANNEL_ID;
-import static com.example.geekmover.activities.JogActivity.JOG_PROGRAM;
 
 public class LocationService extends Service {
 
@@ -31,13 +25,13 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        //jogProgram = (JogProgram) intent.getSerializableExtra(JOG_PROGRAM);
+        jogProgram = (JogProgram) intent.getSerializableExtra(getString(R.string.jog_program));
 
         Intent backToJogIntent = new Intent(this, JogActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, backToJogIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(this, getString(R.string.channel_id))
                 .setContentTitle("Location Service")
                 .setContentText("Location is being tracked, don't worry")
                 .setSmallIcon(R.drawable.ic_android)
