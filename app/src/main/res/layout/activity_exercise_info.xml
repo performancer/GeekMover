@@ -40,6 +40,7 @@
         android:id="@+id/exerciseFinished"
         android:layout_width="300dp"
         android:layout_height="65dp"
+        android:layout_marginTop="62dp"
         android:layout_marginBottom="36dp"
         android:text="@string/unfinished"
         android:textAlignment="center"
@@ -48,12 +49,14 @@
         app:layout_constraintBottom_toTopOf="@+id/completeExercise"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseCalories" />
 
     <Button
         android:id="@+id/completeExercise"
         android:layout_width="300dp"
         android:layout_height="80dp"
+        android:layout_marginTop="68dp"
         android:layout_marginBottom="72dp"
         android:text="@string/finish_button"
         android:textAlignment="center"
@@ -62,6 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseFinished" />
 
 </android.support.constraint.ConstraintLayout>
