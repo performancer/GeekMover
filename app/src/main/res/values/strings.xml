@@ -29,4 +29,9 @@
     <string name="save">Save</string>
 
     <string name="planned_day">Exercises for the day</string>
+
+    <string name="finished">Finished</string>
+    <string name="unfinished">Unfinished</string>
+    <string name="cannot_finish">Cannot finish this exercise just yet!</string>
+    <string name="name_unfound">Name not found</string>
 </resources>

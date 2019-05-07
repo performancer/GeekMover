@@ -50,7 +50,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
         ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
 
-        String name = "Could not find Name";
+        String name = getString(R.string.name_unfound);
         double caloriesBurned = 0;
         boolean finished = false;
 
@@ -64,25 +64,21 @@ public class ExerciseInfoActivity extends AppCompatActivity {
             }
         }
 
-        if(finished){
-            finishedView.setText("Finished");
-        }else{
-            finishedView.setText("Unfinished");
-        }
+        if(finished)
+            finishedView.setText(R.string.finished);
+        else
+            finishedView.setText(R.string.unfinished);
 
         nameView.setText(name);
         caloriesView.setText(Math.round((caloriesBurned*100.0)/100.0) + " kcal");
 
         final Button finishButton = findViewById(R.id.completeExercise);
-        /**
-         * if Exercise is a Jog or exercise is finished, hide button
-         */
-        if(finished || exercise.getClass() == Jog.class){
+
+        //if Exercise is a Jog or exercise is finished, hide button
+        if(finished || exercise.getClass() == Jog.class)
             finishButton.setVisibility(View.INVISIBLE);
-        }
 
         finishButton.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view){
                 FinishExercise(calendar, fmt, dateString, finishedView);
@@ -103,13 +99,12 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         try {
             if (calendar.getTime().getTime() >= (fmt.parse(dateString).getTime())) {
                 exercise.setFinished(true);
-                finishedView.setText("Finished");
+                finishedView.setText(R.string.finished);
 
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 UserData.getInstance().SaveData(pref, getApplicationContext());
             }else{
-                //Kopioitu Emilin koodista
-                String toastMessage = "Cannot finish exercise in the future";
+                String toastMessage = getString(R.string.cannot_finish);
                 Toast message = Toast.makeText(ExerciseInfoActivity.this, toastMessage, Toast.LENGTH_SHORT);
                 message.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP, 0, 150);
                 message.show();
