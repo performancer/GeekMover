@@ -15,6 +15,13 @@ import com.example.geekmover.R;
 import com.example.geekmover.Schedule;
 import com.example.geekmover.UserData;
 
+/**
+ * Has TextFields, EditTexts and a Button named 'Save'
+ * TextFields convey what kind of information the user should input and displays the calculated BMI based on height and weight input
+ * EditTexts allows the user to input height, weight and the desired level of difficulty
+ * Button named 'Save' allows the user to save the inputs to UserData class if there are no incorrect inputs and returns the user to MainActivity
+ * @author Emil
+ */
 public class UserInputActivity extends AppCompatActivity {
 
     private UserData userData = UserData.getInstance();
@@ -54,6 +61,12 @@ public class UserInputActivity extends AppCompatActivity {
         inputLevel.setText(Integer.toString(userData.getLevel()));
     }
 
+    /**
+     * Saves the user inputs in the UserData class and SharedPreferences, if there are no incorrect inputs
+     * If the level variable is changed, the Schedule is updated
+     * @param view view for the button onClick event
+     * @see Schedule
+     */
     public void onSaveClick(View view){
         int levelBeforeSave = userData.getLevel();
         boolean noErrors = true;
@@ -114,6 +127,7 @@ public class UserInputActivity extends AppCompatActivity {
             if(levelBeforeSave != userData.getLevel()){
                 Schedule schedule = UserData.getInstance().getSchedule();
                 schedule.replan();
+                System.out.println("PRINT DATA" + userData.getLevel() + userData.getWeight() + userData.getHeight());
             }
 
             Intent intent = new Intent(this, MainActivity.class);
@@ -121,11 +135,19 @@ public class UserInputActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Saves the UserData by SharedPreferences
+     * @see UserData
+     */
     private void saveData(){
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
+    /**
+     * Loads the UserData by SharedPreferences
+     * @see UserData
+     */
     private void loadData(){
         UserData data = UserData.getInstance();
 
@@ -133,6 +155,10 @@ public class UserInputActivity extends AppCompatActivity {
         data.LoadData(pref, getApplicationContext());
     }
 
+    /**
+     * Toast messages to display to the user whether data is saved or not based on input
+     * @param noErrors
+     */
     private void showToast(boolean noErrors){
         String toastMessage;
         if(noErrors){
