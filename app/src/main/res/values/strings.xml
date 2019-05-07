@@ -35,7 +35,8 @@
     <string name="enter_level">Enter Level</string>
     <string name="bmi">BMI</string>
     <string name="save">Save</string>
-
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
     <string name="planned_day">Exercises for the day</string>
 
     <string name="finished">Finished</string>

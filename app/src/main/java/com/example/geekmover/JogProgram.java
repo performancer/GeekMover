@@ -13,7 +13,6 @@ import com.example.geekmover.activities.JogActivity;
 import com.example.geekmover.data.Jog;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,14 +230,6 @@ public class JogProgram extends LocationService implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        if(isFinished()){
-            UserData.getInstance().getSchedule().getToday().getJog().setFinished(true);
-        }
-        /*if(activity == null){
-            end(); // should not run without JogActivity
-            return;
-        }*/
-
         double latitude = (location.getLatitude());
         double longitude =  (location.getLongitude());
 
@@ -256,6 +247,7 @@ public class JogProgram extends LocationService implements LocationListener {
 
         if(isFinished())
             jog.setFinished(true);
+
         if(activity != null) {
             activity.Update();
         }

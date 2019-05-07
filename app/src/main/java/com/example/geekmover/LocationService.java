@@ -12,12 +12,6 @@ import com.example.geekmover.activities.JogActivity;
 
 public class LocationService extends Service {
 
-    private static JogProgram jogProgram;
-
-    public static JogProgram getJogProgram(){
-        return jogProgram;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,8 +19,6 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        jogProgram = (JogProgram) intent.getSerializableExtra(getString(R.string.jog_program));
-
         Intent backToJogIntent = new Intent(this, JogActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, backToJogIntent, 0);

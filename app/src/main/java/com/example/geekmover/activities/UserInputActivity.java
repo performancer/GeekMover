@@ -129,7 +129,6 @@ public class UserInputActivity extends AppCompatActivity {
             if(levelBeforeSave != userData.getLevel()){
                 Schedule schedule = UserData.getInstance().getSchedule();
                 schedule.replan();
-                System.out.println("PRINT DATA" + userData.getLevel() + userData.getWeight() + userData.getHeight());
             }
 
             finish();

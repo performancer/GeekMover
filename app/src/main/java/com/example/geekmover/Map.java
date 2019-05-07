@@ -109,6 +109,7 @@ public class Map {
     /**
      * Creates a Google Map marker to the starting location
      *
+     * Modified from:
      * @param latestCoordinates desired coordinates
      * @see Coordinates
      */
@@ -124,6 +125,7 @@ public class Map {
 
     /**
      * Creates a Google Map marker to the the current location of the user
+     *
      *
      * @param latestCoordinates desired coordinates
      * @see Coordinates
