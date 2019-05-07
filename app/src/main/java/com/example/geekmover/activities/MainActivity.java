@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(MainActivity.this, "You have already granted this permission", Toast.LENGTH_SHORT);
+            Toast.makeText(MainActivity.this, R.string.already_granted, Toast.LENGTH_SHORT);
         }else{
             requestLocationPermission();
         }
@@ -78,26 +78,26 @@ public class MainActivity extends AppCompatActivity {
             Day day = schedule.getToday();
 
             TextView view = findViewById(R.id.textView);
-            view.setText("You are currently at level " + data.getLevel());
+            view.setText(getString(R.string.current_level,data.getLevel()));
 
             Button button = findViewById(R.id.button);
-            button.setText(day.getJog() != null ? "Start a Jog" : "No Jog for today!");
+            button.setText(day.getJog() != null ? R.string.start_jog : R.string.no_jog);
 
             String text;
             int length = day.getExercises().length;
 
             if(length > 0) {
-                text = "Today " + SimpleDateFormat.getDateInstance().format(day.getDate()) + "\n";
+                text = getString(R.string.today, SimpleDateFormat.getDateInstance().format(day.getDate())) + "\n";
 
                 if (length > 1)
-                    text += "There are " + length + " exercises for today\n";
+                    text += getString(R.string.many_exercises, length) + "\n";
                 else
-                    text += "There is one exercise for today\n";
+                    text += getString(R.string.one_exercise) + "\n";
 
-                text += day.getCurrentCaloriesBurned() + "/" + day.getTotalCaloriesBurned() + "kcal";
+                text += day.getCurrentCaloriesBurned() + "/" + day.getTotalCaloriesBurned() + " kcal";
             }
             else {
-                text = "Rest for today! :)";
+                text = getString(R.string.no_exercises);
             }
 
             TextView todayText = findViewById(R.id.todayView);
@@ -107,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestLocationPermission() {
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
-            new AlertDialog.Builder(this).setTitle("Permission needed").setMessage("Application needs to access your location ").setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(this).setTitle(R.string.permission_needed).setMessage(R.string.access_location).setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                 }
-            }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == 1){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }

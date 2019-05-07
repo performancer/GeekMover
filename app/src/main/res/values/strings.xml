@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Geek Mover</string>
+    <string name="agree">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="permission_needed">Permission needed</string>
+    <string name="access_location">The application needs to access your location.</string>
+    <string name="permission_granted">Permission GRANTED</string>
+    <string name="permission_denied">Permission DENIED</string>
+    <string name="already_granted">You have already granted this permission.</string>
+    <string name="start_jog">Start a Jog</string>
+    <string name="no_jog">No Jog for Today</string>
+    <string name="current_level">You are currently at level %1$d</string>
+    <string name="today">Today %1$s</string>
+    <string name="many_exercises">There are %1$d exercises for today</string>
+    <string name="one_exercise">There is one exercise for today</string>
+    <string name="no_exercises">Rest for today :)</string>
 </resources>
