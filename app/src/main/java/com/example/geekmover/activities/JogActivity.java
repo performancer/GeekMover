@@ -47,6 +47,12 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
                 finish();
             }
         }
+        /**
+         * Gets a handle to the map fragment by calling FragmentManager.findFragmentById().
+         * Then use getMapAsync() to register for the map callback:
+         *
+         * Source: https://developers.google.com/maps/documentation/android-sdk/map-with-marker
+         */
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
