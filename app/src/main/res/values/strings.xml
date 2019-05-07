@@ -16,4 +16,15 @@
     <string name="many_exercises">There are %1$d exercises for today</string>
     <string name="one_exercise">There is one exercise for today</string>
     <string name="no_exercises">Rest for today :)</string>
+
+    <string name="incorrect_input">Incorrect Input</string>
+    <string name="data_saved">Data Saved</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="level">Level</string>
+    <string name="enter_height">Enter Height</string>
+    <string name="enter_weight">Enter Weight</string>
+    <string name="enter_level">Enter Level</string>
+    <string name="bmi">BMI</string>
+    <string name="save">Save</string>
 </resources>

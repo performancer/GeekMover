@@ -38,6 +38,8 @@ public class UserInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_input);
 
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
         loadData();
 
         inputHeight = findViewById(R.id.inputHeight);
@@ -140,7 +142,6 @@ public class UserInputActivity extends AppCompatActivity {
      * @see UserData
      */
     private void saveData(){
-        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         UserData.getInstance().SaveData(pref, getApplicationContext());
     }
 
@@ -149,10 +150,7 @@ public class UserInputActivity extends AppCompatActivity {
      * @see UserData
      */
     private void loadData(){
-        UserData data = UserData.getInstance();
-
-        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        data.LoadData(pref, getApplicationContext());
+       UserData.getInstance().LoadData(pref, getApplicationContext());
     }
 
     /**
@@ -162,9 +160,9 @@ public class UserInputActivity extends AppCompatActivity {
     private void showToast(boolean noErrors){
         String toastMessage;
         if(noErrors){
-            toastMessage = "Data Saved";
+            toastMessage = getString(R.string.data_saved);
         } else {
-            toastMessage = "Incorrect Input";
+            toastMessage = getString(R.string.incorrect_input);
         }
 
         Toast saveMessage = Toast.makeText(UserInputActivity.this, toastMessage, Toast.LENGTH_SHORT);
