@@ -20,7 +20,7 @@ public class UserData {
 
     private Schedule schedule;
     private final String path = "schedule";
-    private int level, phase, height, weight;
+    private int level, height, weight;
 
     /**
      * Constructor for UserData
@@ -47,13 +47,6 @@ public class UserData {
         this.level = level;
     }
 
-    public void setPhase(int phase){
-        this.phase = phase;
-    }
-
-    public int getPhase(){
-        return phase;
-    }
 
     /**
      * setter method for user height
