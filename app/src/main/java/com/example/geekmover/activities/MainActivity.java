@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * When the activity is created, updates the text views etc accordingly. Checks the needed
      * permissions for the application and UserData singleton loads its data once the activity is
-     * created. If there is no schedule nor a plan, one shall be generated based on the user data.
+     * created. If user data has not been inserted, UserInputActivity shall be started
+     * automatically.
      *
      * @param savedInstanceState
      */
@@ -52,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         data.LoadData(pref, getApplicationContext());
 
+        UpdateViews();
+
+        if(data.getHeight() == 0 || data.getWeight() == 0){
+            Intent intent = new Intent(this, UserInputActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    /**
+     * Checks if there is a plan and updates it and then updates the views in the activity
+     * accordingly.
+     */
+    private void UpdateViews(){
+
+        UserData data = UserData.getInstance();
         Schedule schedule = data.getSchedule();
         schedule.plan();
 
@@ -81,16 +97,11 @@ public class MainActivity extends AppCompatActivity {
                 text += day.getCurrentCaloriesBurned() + "/" + day.getTotalCaloriesBurned() + "kcal";
             }
             else {
-                text = "Today is a rest day! :)";
+                text = "Rest for today! :)";
             }
 
             TextView todayText = findViewById(R.id.todayView);
             todayText.setText(text);
-        }
-
-        if(data.getHeight() == 0 || data.getWeight() == 0){
-            Intent intent = new Intent(this, UserInputActivity.class);
-            startActivity(intent);
         }
     }
 
@@ -124,14 +135,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * When the activity resumes, level text is updated in case it has been changed.
+     * When the activity resumes, views are updated in case for any changes.
      */
     @Override
     protected void onResume(){
         super.onResume();
 
-        TextView view = findViewById(R.id.textView);
-        view.setText("You are currently at level " + UserData.getInstance().getLevel());
+        UpdateViews();
     }
 
     /**
