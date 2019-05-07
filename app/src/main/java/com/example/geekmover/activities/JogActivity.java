@@ -48,6 +48,16 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        stopService();
+
+        if(jogProgram != null)
+            jogProgram.end();
+    }
+
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel serviceChannel = new NotificationChannel(
