@@ -56,6 +56,9 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
             jogProgram.end();
     }
 
+    /**
+     * Creates a notification channel through which notifications are possible
+     */
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -69,11 +72,17 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    /**
+     * Starts the background services
+     */
     public void startService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         startService(serviceIntent);
     }
 
+    /**
+     * Stops background services
+     */
     public void stopService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         stopService(serviceIntent);
@@ -128,6 +137,9 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         map.setMap(googleMap);
     }
 
+    /**
+     * When JogActivity is stopped, LocationService starts which keeps the instance of JogProgram alive to still use gps in background
+     */
     @Override
     protected void onStop() {
         super.onStop();
