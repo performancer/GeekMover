@@ -2,12 +2,16 @@ package com.example.geekmover.data;
 
 import com.example.geekmover.UserData;
 
+/**
+ * Extends the Exercise class which is used to store data. This class is specifically used for
+ * jog exercises, which have different way of calculating calorie burn and cannot be finished
+ * without a jog program.
+ */
 public class Jog extends Exercise {
 
     /**
-     * Extends the Exercise class which is used to store data. This class is specifically used for
-     * jog exercises, which have different way of calculating calorie burn and cannot be finished
-     * without a jog program.
+     * Constructor for Jog
+     *
      * @param amount Distance the user is supposed to jog (in meters)
      */
     public Jog(int amount) {

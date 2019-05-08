@@ -80,7 +80,7 @@ public class Map {
     /**
      * Creates a polyline to the Google Map and sets a width and color to the line.
      */
-    public void createPolyLine(){
+    private void createPolyLine(){
         polylineOptions = new PolylineOptions().width(9).color(Color.RED).geodesic(true);
         polyline = map.addPolyline(polylineOptions);
     }
@@ -90,7 +90,7 @@ public class Map {
      *
      * @param latLngList desired list
      */
-    public void updatePolyLine(List<LatLng> latLngList){
+    private void updatePolyLine(List<LatLng> latLngList){
         polyline.setPoints(latLngList); //draw a polyline based on all points
     }
 
@@ -107,36 +107,30 @@ public class Map {
     }
 
     /**
-     * Creates a Google Map marker to the starting location
-     *
-     * Modified from:
-     * @param latestCoordinates desired coordinates
-     * @see Coordinates
-     */
-    public void createStartMarker(Coordinates latestCoordinates){
-        LatLng myLocation = latestCoordinates.getLatLng();
-
-        map.addMarker(new MarkerOptions()
-                .position(myLocation)
-                .title("StartLocation")
-                .alpha(0.5f)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-    }
-
-    /**
      * Creates a Google Map marker to the the current location of the user
      *
-     *
-     * @param latestCoordinates desired coordinates
+     * @param coordinates desired coordinates
+     * @param title marker title
+     * @param alpha opacity of the marker
+     * @param isStartMarker marker type
      * @see Coordinates
      */
-    public void createLocationMarker(Coordinates latestCoordinates){
-        LatLng myLocation = latestCoordinates.getLatLng();
-        locationMarker = map.addMarker(new MarkerOptions()
-                .position(myLocation)
-                .title("CurrentLocation")
-                .alpha(1.0f)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+    public void createMarker(Coordinates coordinates, String title, float alpha, boolean isStartMarker){
+        LatLng myLocation = coordinates.getLatLng();
+
+        if(isStartMarker){
+            map.addMarker(new MarkerOptions()
+                    .position(myLocation)
+                    .title(title)
+                    .alpha(alpha)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            } else {
+            locationMarker = map.addMarker(new MarkerOptions()
+                    .position(myLocation)
+                    .title(title)
+                    .alpha(alpha)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            }
     }
 
     /**

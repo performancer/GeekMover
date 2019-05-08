@@ -41,8 +41,13 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         jogProgram = new JogProgram(this, jog);
         jogProgram.start();
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+
+        /* Gets a handle to the map fragment by calling FragmentManager.findFragmentById().
+         * Then use getMapAsync() to register for the map callback:
+         *
+         * Source: https://developers.google.com/maps/documentation/android-sdk/map-with-marker */
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -119,17 +124,16 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         TextView caloriesView = findViewById(R.id.caloriesView);
         caloriesView.setText(getString(R.string.calories, calories));
 
-        if(map.getPolyline() == null){
-            map.createStartMarker(jogProgram.getLatestCoordinates());
-        } else if(map.getPolyline() != null && map.getLocationMarker() == null) {
-            map.createLocationMarker(jogProgram.getLatestCoordinates());
-        } else {
+        if(map.getPolyline() == null){ // if there is no polyline on the map, create the starting location marker
+            map.createMarker(jogProgram.getLatestCoordinates(), "Start Location", 0.5f, true);
+        } else if(map.getPolyline() != null && map.getLocationMarker() == null) { // if there is a polyline on the map, create the current marker for current location
+            map.createMarker(jogProgram.getLatestCoordinates(), "Current Location", 1.0f, false);
+        } else { // else update the current location's marker position
             map.updateMarker(jogProgram.getLatestCoordinates());
         }
 
-        map.drawPolyLine(jogProgram.getLatLngList());
-        map.updateCamera(jogProgram.getLatestCoordinates());
-
+        map.drawPolyLine(jogProgram.getLatLngList()); // draw polyline method. Polyline is created if there isn't one
+        map.updateCamera(jogProgram.getLatestCoordinates()); // update the camera position
     }
 
     @Override

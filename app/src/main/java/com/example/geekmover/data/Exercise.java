@@ -3,6 +3,10 @@ package com.example.geekmover.data;
 import com.example.geekmover.UserData;
 import java.io.Serializable;
 
+/**
+ * Exercise implements the interface IExercise. Is used to store data of an exercise that the user
+ * is supposed to complete during the given day. Serializable.
+ */
 public class Exercise implements IExercise, Serializable {
 
     private String name;
@@ -10,8 +14,8 @@ public class Exercise implements IExercise, Serializable {
     private boolean finished;
 
     /**
-     * Implements the interface IExercise. Is used to store data of an exercise that the user is
-     * supposed to complete during the given day. Serializable.
+     * Constructor for Exercise
+     *
      * @param name name of the exercise
      * @param amount amount of repeats for this exercise
      */
