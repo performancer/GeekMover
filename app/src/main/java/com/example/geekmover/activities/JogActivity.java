@@ -19,8 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 /**
- * JogActivity displays a Google map with current and average movement speed with calories burned.
- * When JogActivity stops, a background service is tarted which keeps updating the list of coordinates in JogProgram.
+ * JogActivity is the activity used for jogging. It displays a map and data about the jogging
+ * session and informs when the user has reached their goal.
  */
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -54,6 +54,9 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * When the activity is destroyed it stops the service and location handling.
+     */
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -81,7 +84,7 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     /**
-     * Starts the background service
+     * Starts the service which will run on the background
      */
     public void startService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
@@ -89,13 +92,16 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     /**
-     * Stops background service
+     *  Stops service so that it will not run on the background anymore.
      */
     public void stopService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         stopService(serviceIntent);
     }
 
+    /**
+     * Updates the user interface
+     */
     public void Update() {
         String text;
 
@@ -138,6 +144,12 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         map.drawPolyLine(jogProgram.getLatLngList()); // draw polyline method. Polyline is created if there isn't one
         map.updateCamera(jogProgram.getLatestCoordinates()); // update the camera position
     }
+
+    /**
+     * Sets map once it is ready
+     *
+     * @param googleMap map that is set
+     */
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
