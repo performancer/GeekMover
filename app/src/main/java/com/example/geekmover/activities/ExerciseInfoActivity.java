@@ -27,7 +27,6 @@ import java.util.Locale;
 
 /**
  * Displays specific info on an exercise, gets the exercise from ScheduleActivity with an intent.
- * @author Lauri
  */
 public class ExerciseInfoActivity extends AppCompatActivity {
 
@@ -50,9 +49,11 @@ public class ExerciseInfoActivity extends AppCompatActivity {
 
         ArrayList<Day> days = UserData.getInstance().getSchedule().getDays();
 
+        //assigning default values to variables to avoid crashes if something goes wrong
         String name = getString(R.string.name_unfound);
         double caloriesBurned = 0;
         boolean finished = false;
+
         //finds Day object where the formatted dates match, uses getters from found Day object to populate the screen with info
         for(Day day : days){
             if (fmt.format(day.getDate()).equals(dateString)) {
@@ -70,7 +71,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
             finishedView.setText(R.string.unfinished);
 
         nameView.setText(name);
-        caloriesView.setText(Math.round((caloriesBurned*100.0)/100.0) + " kcal");
+        caloriesView.setText(getString(R.string.calories, Math.round((caloriesBurned*100.0)/100.0)));
 
         final Button finishButton = findViewById(R.id.completeExercise);
 
