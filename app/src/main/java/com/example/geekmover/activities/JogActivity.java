@@ -18,6 +18,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+/**
+ * JogActivity displays a Google map with current and average movement speed with calories burned.
+ * When JogActivity stops, a background service is tarted which keeps updating the list of coordinates in JogProgram.
+ */
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private JogProgram jogProgram;
@@ -40,7 +44,6 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
 
         jogProgram = new JogProgram(this, jog);
         jogProgram.start();
-
 
         /* Gets a handle to the map fragment by calling FragmentManager.findFragmentById().
          * Then use getMapAsync() to register for the map callback:
@@ -78,7 +81,7 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     /**
-     * Starts the background services
+     * Starts the background service
      */
     public void startService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
@@ -86,7 +89,7 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     /**
-     * Stops background services
+     * Stops background service
      */
     public void stopService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
@@ -125,9 +128,9 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         caloriesView.setText(getString(R.string.calories, calories));
 
         if(map.getPolyline() == null){ // if there is no polyline on the map, create the starting location marker
-            map.createMarker(jogProgram.getLatestCoordinates(), "Start Location", 0.5f, true);
+            map.createMarker(jogProgram.getLatestCoordinates(), getString(R.string.start_location), 0.5f, true);
         } else if(map.getPolyline() != null && map.getLocationMarker() == null) { // if there is a polyline on the map, create the current marker for current location
-            map.createMarker(jogProgram.getLatestCoordinates(), "Current Location", 1.0f, false);
+            map.createMarker(jogProgram.getLatestCoordinates(), getString(R.string.current_location), 1.0f, false);
         } else { // else update the current location's marker position
             map.updateMarker(jogProgram.getLatestCoordinates());
         }

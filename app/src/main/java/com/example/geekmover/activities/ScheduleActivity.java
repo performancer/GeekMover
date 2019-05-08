@@ -23,14 +23,10 @@ import java.util.Locale;
  * Has a CalendarView and a ListView.
  * CalendarView shows a calendar with non-planned days grayed out(non clickable).
  * ListView displays Exercises for the chosen day.
- * @author Lauri
  */
 public class ScheduleActivity extends AppCompatActivity {
 
     final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
-
-    public static final String DATE = "DATE";
-    public static final String EINDEX = "EINDEX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +46,7 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                 calendar.set(year, month, dayOfMonth);
-
+                //finds clicked Day in the Schedule
                 for (final Day day : days) {
                     if (fmt.format(day.getDate()).equals(fmt.format(calendar.getTime()))) {
                         setupListView(day);
@@ -70,7 +66,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
     /**
      * Sets up the ListView which shows all the exercises for the day.
-     * Creates an ArrayAdapter which
+     * Creates an ArrayAdapter which puts all of the Exercises into the ListView
      *
      * @param day Needs a Day object to display Exercises.
      */
@@ -85,8 +81,8 @@ public class ScheduleActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                     Intent intent = new Intent(ScheduleActivity.this, ExerciseInfoActivity.class);
-                    intent.putExtra(DATE, fmt.format(day.getDate()));
-                    intent.putExtra(EINDEX, i);
+                    intent.putExtra(getString(R.string.DATE), fmt.format(day.getDate()));
+                    intent.putExtra(getString(R.string.EINDEX), i);
                     startActivity(intent);
                 }
             });

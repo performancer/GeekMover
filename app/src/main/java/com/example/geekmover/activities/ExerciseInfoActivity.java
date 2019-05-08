@@ -41,8 +41,8 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         final Calendar calendar = Calendar.getInstance();
 
-        final String dateString = getIntent().getStringExtra(ScheduleActivity.DATE);
-        int EIndex = getIntent().getIntExtra(ScheduleActivity.EINDEX, 0);
+        final String dateString = getIntent().getStringExtra(getString(R.string.DATE));
+        int EIndex = getIntent().getIntExtra(getString(R.string.EINDEX), 0);
 
         final TextView nameView = findViewById(R.id.exerciseName);
         final TextView caloriesView = findViewById(R.id.exerciseCalories);
@@ -53,7 +53,7 @@ public class ExerciseInfoActivity extends AppCompatActivity {
         String name = getString(R.string.name_unfound);
         double caloriesBurned = 0;
         boolean finished = false;
-
+        //finds Day object where the formatted dates match, uses getters from found Day object to populate the screen with info
         for(Day day : days){
             if (fmt.format(day.getDate()).equals(dateString)) {
                 exercise = day.getExercises()[EIndex];
