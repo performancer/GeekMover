@@ -16,6 +16,12 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JogProgram holds data about user's jogging and keeps a list of locations that the user has
+ * been at. JogProgram holds methods for calculating various things about the current jog.
+ * Implements LocationListener to receive GPS-coordinates, which it assigns to a ArrayList of
+ * Coordinates. Extends LocationService, which is used to run on the background.
+ */
 public class JogProgram extends LocationService implements LocationListener {
 
     private Jog jog;
@@ -24,10 +30,7 @@ public class JogProgram extends LocationService implements LocationListener {
     private ArrayList<Coordinates> coordinatesArrayList;
 
     /**
-     * JogProgram holds data about user's jogging and keeps a list of locations that the user has
-     * been at. JogProgram holds methods for calculating various things about the current jog.
-     * Implements LocationListener to receive GPS-coordinates, which it assigns to a ArrayList of
-     * Coordinates.
+     * Constructor for JogProgram
      *
      * @param activity JogActivity that the jog program informs about location changes
      * @param jog Reference to the exercise that the user is completing.

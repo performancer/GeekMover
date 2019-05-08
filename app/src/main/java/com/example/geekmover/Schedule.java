@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Schedule manages days and plans exercises for the user.
+ */
 public class Schedule implements Serializable {
 
     private final int millisecondsInDay = 86400000;
@@ -21,7 +24,7 @@ public class Schedule implements Serializable {
     private ArrayList<Day> days;
 
     /**
-     * Schedule manages days and plans exercises for the user.
+     * Constructor for Schedule
      */
     public Schedule(){
         days = new ArrayList<>();

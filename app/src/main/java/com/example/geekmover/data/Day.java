@@ -2,14 +2,17 @@ package com.example.geekmover.data;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * Day is used to store exercises in and to have a date value of the specific date it
+ * represents. Serializable.
+ */
 public class Day implements Serializable {
     private Date date;
     private IExercise[] exercises;
 
     /**
-     * Day is used to store exercises in and to have a date value of the specific date it
-     * represents. Serializable.
+     * Constructor for day
+     *
      * @param date date for this day
      * @param exercises array of exercises for this day
      */
