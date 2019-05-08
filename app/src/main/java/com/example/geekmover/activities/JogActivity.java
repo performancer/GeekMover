@@ -18,6 +18,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+/**
+ * JogActivity is the activity used for jogging. It displays a map and data about the jogging
+ * session and informs when the user has reached their goal.
+ */
 public class JogActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private JogProgram jogProgram;
@@ -51,6 +55,9 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * When the activity is destroyed it stops the service and location handling.
+     */
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -74,16 +81,25 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    /**
+     * Starts the service which will run on the background
+     */
     public void startService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         startService(serviceIntent);
     }
 
+    /**
+     *  Stops service so that it will not run on the background anymore.
+     */
     public void stopService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         stopService(serviceIntent);
     }
 
+    /**
+     * Updates the user interface
+     */
     public void Update() {
         String text;
 
@@ -127,11 +143,20 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
         map.updateCamera(jogProgram.getLatestCoordinates()); // update the camera position
     }
 
+    /**
+     * Sets map once it is ready
+     *
+     * @param googleMap map that is set
+     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map.setMap(googleMap);
     }
 
+    /**
+     * When the activity stops, starts service in order to receive coordinates.
+     */
     @Override
     protected void onStop() {
         super.onStop();
