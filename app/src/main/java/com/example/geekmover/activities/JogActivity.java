@@ -68,6 +68,9 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
             jogProgram.end();
     }
 
+    /**
+     * Creates a notification channel through which notifications are possible
+     */
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -155,7 +158,7 @@ public class JogActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     /**
-     * When the activity stops, starts service in order to receive coordinates.
+     * When JogActivity is stopped, LocationService starts which keeps the instance of JogProgram alive to still use gps in background
      */
     @Override
     protected void onStop() {
